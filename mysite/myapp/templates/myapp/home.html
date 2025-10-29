@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>home</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'myapp/design_home.css' %}">
+</head>
+<body>
+    <nav class="menu">
+        <ul>
+            <li>Bienvenido{% if user.is_authenticated %}, {{ user.username }} {% else %} a nuestra aplicación {% endif %}</li>
+            
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
+            {% else %}
+            <li><a href="{% url 'login' %}">Iniciar sesión</a></li>
+            <li><a href="{% url 'register' %}">Registrarse</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% if user.is_authenticated %}
+    <div class="options-container">
+        <a href="{% url 'crear' %}" class="option-card">Crear una nueva publicación</a>
+        <a href="{% url 'lista' %}" class="option-card">Explorar otras publicaciones</a>
+        <a href="#" class="option-card">Revisar contaminación acústica</a>
+    </div>
+    {% else %}
+    <p class="login-message">Por favor, inicia sesión para disfrutar de las funcionalidades que ofrecemos!</p>
+    {% endif %}
+</body>
+</html>

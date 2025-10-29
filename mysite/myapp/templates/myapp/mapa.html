@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mapa piso 1</title>
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+
+  <style>
+    #map {
+      width: 100%;
+      height: 600px;
+      background: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+  <h2>Mapa piso 1</h2>
+
+  <div id="coords" style="margin-bottom: 10px; font-weight: bold;">
+    Mueve el ratón sobre el mapa...
+  </div>
+
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+    var map = L.map('map', {
+      crs: L.CRS.Simple,
+      minZoom: -2,
+    });
+
+    var w = 1752, h = 2263;
+    var url = "{% static 'img/mapa piso 1.jpg' %}";
+    var bounds = [[0, 0], [h, w]];
+    var image = L.imageOverlay(url, bounds).addTo(map);
+    map.fitBounds(bounds);
+
+    var marker1 = L.marker([800, 600]).addTo(map)
+      .bindPopup("📍 Región 1: Información sobre esta zona.");
+
+    var marker2 = L.marker([300, 1200]).addTo(map)
+      .bindPopup("📍 Región 2: Otro mensaje.");
+
+    var sala_a016 = L.rectangle([[372.8,1350.0], [440.8, 1493.0]], {color: "white", weight: 2, opacity: 0})
+      .addTo(map)
+      .bindPopup("Sala A016");
+    
+    var sala_a004 = L.rectangle([[513.6,1494.0], [445.6, 1352.0]], {color: "white", weight: 2, opacity: 0})
+      .addTo(map)
+      .bindPopup("Sala A004");
+    
+    var coordsDiv = document.getElementById('coords');
+
+    map.on('mousemove', function(e) {
+      var lat = e.latlng.lat.toFixed(2);
+      var lng = e.latlng.lng.toFixed(2);
+      coordsDiv.innerHTML = `x: ${lng}, y: ${lat}`;
+    });
+  </script>
+
+
+
+</body>
+</html>
