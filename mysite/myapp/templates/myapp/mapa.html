@@ -41,19 +41,19 @@
     var image = L.imageOverlay(url, bounds).addTo(map);
     map.fitBounds(bounds);
 
-    var marker1 = L.marker([800, 600]).addTo(map)
-      .bindPopup("📍 Región 1: Información sobre esta zona.");
-
-    var marker2 = L.marker([300, 1200]).addTo(map)
-      .bindPopup("📍 Región 2: Otro mensaje.");
-
-    var sala_a016 = L.rectangle([[372.8,1350.0], [440.8, 1493.0]], {color: "white", weight: 2, opacity: 0})
+    var edf_A = L.rectangle([[251,1197], [1093, 1654]], {color: "white", weight: 2, opacity: 0})
       .addTo(map)
-      .bindPopup("Sala A016");
+      .bindPopup("Edificio A");
+
+    var edf_K = L.rectangle([[389,297], [173, 1175]], {color: "white", weight: 2, opacity: 0})
+      .addTo(map)
+      .bindPopup("Edificio K");
     
-    var sala_a004 = L.rectangle([[513.6,1494.0], [445.6, 1352.0]], {color: "white", weight: 2, opacity: 0})
+
+    var edf_B = L.rectangle([[2167,165], [2006, 1275]], {color: "white", weight: 2, opacity: 0})
       .addTo(map)
-      .bindPopup("Sala A004");
+      .bindPopup("Edificio B");
+
     
     var coordsDiv = document.getElementById('coords');
 
