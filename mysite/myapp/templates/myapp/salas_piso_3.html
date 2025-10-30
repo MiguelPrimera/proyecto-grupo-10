@@ -1,0 +1,52 @@
+<h1>Salas Libres - Piso 3</h1>
+
+<h2>Lunes</h2>
+{% for sala, bloques in lunes.items %}
+    <p><strong>{{ sala }}</strong></p>
+    <ul>
+        {% for bloque in bloques %}
+            <li>{{ bloque }}</li>
+        {% endfor %}
+    </ul>
+{% endfor %}
+
+<h2>Martes</h2>
+{% for sala, bloques in martes.items %}
+    <p><strong>{{ sala }}</strong></p>
+    <ul>
+        {% for bloque in bloques %}
+            <li>{{ bloque }}</li>
+        {% endfor %}
+    </ul>
+{% endfor %}
+
+<h2>Miercoles</h2>
+{% for sala, bloques in miercoles.items %}
+    <p><strong>{{ sala }}</strong></p>
+    <ul>
+        {% for bloque in bloques %}
+            <li>{{ bloque }}</li>
+        {% endfor %}
+    </ul>
+{% endfor %}
+
+<h2>Jueves</h2>
+{% for sala, bloques in jueves.items %}
+    <p><strong>{{ sala }}</strong></p>
+    <ul>
+        {% for bloque in bloques %}
+            <li>{{ bloque }}</li>
+        {% endfor %}
+    </ul>
+{% endfor %}
+
+<h2>Viernes</h2>
+{% for sala, bloques in viernes.items %}
+    <p><strong>{{ sala }}</strong></p>
+    <ul>
+        {% for bloque in bloques %}
+            <li>{{ bloque }}</li>
+        {% endfor %}
+    </ul>
+{% endfor %}
+

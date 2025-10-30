@@ -10,5 +10,8 @@ urlpatterns = [
     path('crear/', views.crear, name='crear'),
     path('lista/', views.lista, name='lista'),
     path('mapa/', views.mapa, name='mapa'),
-    path('salas_piso_1/', views.salas_piso_1, name='salas_piso_1')
+    path('salas_piso_1/', views.salas_piso_1, name='salas_piso_1'),
+    path('salas_piso_2/', views.salas_piso_2, name='salas_piso_2'),
+    path('salas_piso_3/', views.salas_piso_3, name='salas_piso_3'),
+    path('salas_piso_4/', views.salas_piso_4, name='salas_piso_4')
 ]

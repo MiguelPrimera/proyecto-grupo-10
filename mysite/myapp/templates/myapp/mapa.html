@@ -41,18 +41,22 @@
     var image = L.imageOverlay(url, bounds).addTo(map);
     map.fitBounds(bounds);
 
-    var edf_A = L.rectangle([[251,1197], [1093, 1654]], {color: "white", weight: 2, opacity: 0})
-      .addTo(map)
-      .bindPopup("Edificio A");
+    const regiones = [
+      { nombre: "edf_A", coords: [[251,1197], [1093, 1654]] },
+      { nombre: "edf_B", coords: [[2167,165], [2006, 1275]] },
+      { nombre: "edf_F", coords: [[389,297], [173, 1175]] },
+    ];
 
-    var edf_K = L.rectangle([[389,297], [173, 1175]], {color: "white", weight: 2, opacity: 0})
-      .addTo(map)
-      .bindPopup("Edificio K");
-    
 
-    var edf_B = L.rectangle([[2167,165], [2006, 1275]], {color: "white", weight: 2, opacity: 0})
-      .addTo(map)
-      .bindPopup("Edificio B");
+    const destino = "{% url 'salas_piso_1' %}";
+  
+    regiones.forEach(r => {
+      L.rectangle(r.coords, { color: "white", weight: 2, opacity: 0 })
+        .addTo(map)
+        .on("click", function() {
+          window.location.href = destino;
+        });
+    });
 
     
     var coordsDiv = document.getElementById('coords');
