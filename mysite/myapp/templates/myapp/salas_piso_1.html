@@ -1,52 +1,42 @@
-<h1>Salas Libres - Piso 1</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salas Libres - Piso 1</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'myapp/design_salas_disponibles.css' %}">
+</head>
+<body>
+    <main class="content">
+        <h1>Salas Libres - Piso 1</h1>
 
-<h2>Lunes</h2>
-{% for sala, bloques in lunes.items %}
-    <p><strong>{{ sala }}</strong></p>
-    <ul>
-        {% for bloque in bloques %}
-            <li>{{ bloque }}</li>
-        {% endfor %}
-    </ul>
-{% endfor %}
+        <div class="accordion">
+            {% for edificio, dias in data.items %}
+            <details class="level-1">
+                <summary><h2>{{ edificio }}</h2></summary>
 
-<h2>Martes</h2>
-{% for sala, bloques in martes.items %}
-    <p><strong>{{ sala }}</strong></p>
-    <ul>
-        {% for bloque in bloques %}
-            <li>{{ bloque }}</li>
-        {% endfor %}
-    </ul>
-{% endfor %}
+                {% for dia, salas in dias.items %}
+                <details class="level-2">
+                    <summary><h3>{{ dia }}</h3></summary>
 
-<h2>Miercoles</h2>
-{% for sala, bloques in miercoles.items %}
-    <p><strong>{{ sala }}</strong></p>
-    <ul>
-        {% for bloque in bloques %}
-            <li>{{ bloque }}</li>
-        {% endfor %}
-    </ul>
-{% endfor %}
-
-<h2>Jueves</h2>
-{% for sala, bloques in jueves.items %}
-    <p><strong>{{ sala }}</strong></p>
-    <ul>
-        {% for bloque in bloques %}
-            <li>{{ bloque }}</li>
-        {% endfor %}
-    </ul>
-{% endfor %}
-
-<h2>Viernes</h2>
-{% for sala, bloques in viernes.items %}
-    <p><strong>{{ sala }}</strong></p>
-    <ul>
-        {% for bloque in bloques %}
-            <li>{{ bloque }}</li>
-        {% endfor %}
-    </ul>
-{% endfor %}
-
+                    {% for sala, bloques in salas.items %}
+                    <details class="level-3">
+                        <summary><h4>{{ sala }}</h4></summary>
+                        <ul>
+                            {% for bloque in bloques %}
+                            <li>{{ bloque }}</li>
+                            {% endfor %}
+                        </ul>
+                    </details>
+                    {% endfor %}
+                </details>
+                {% endfor %}
+            </details>
+            {% empty %}
+            <p class="no-data">No hay información disponible en este momento.</p>
+            {% endfor %}
+        </div>
+    </main>
+</body>
+</html>

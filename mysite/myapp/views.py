@@ -86,6 +86,10 @@ def lista(request):
 def mapa(request):
     return render(request, 'myapp/mapa.html')
 
+def coords(request):  #para facilitar encontrar las coordenadas en pixeles
+    return render(request, 'myapp/coords.html')
+
+'''
 def salas_piso_1(request):
     info=Disponibilidad.objects.filter(sala__piso__numero=1, estado='Libre').select_related('sala', 'bloque')
     lunes={}
@@ -121,6 +125,25 @@ def salas_piso_1(request):
             viernes[sala_nombre].append(d.bloque.nombre)
         
     return render(request, 'myapp/salas_piso_1.html', {'lunes': lunes,'martes': martes,'miercoles': miercoles,'jueves': jueves,'viernes': viernes})
+'''
+
+def salas_piso_1(request):
+
+    info=Disponibilidad.objects.filter(sala__piso__numero=1, estado='Libre').select_related('sala', 'bloque')
+    data={}
+    for d in info:
+        edificio='Edificio '+d.sala.nombre[0]
+        if edificio not in data:
+            data[edificio]={}
+        day=d.dia.nombre
+        if day not in data[edificio]:
+            data[edificio][day]={}
+        sala_nombre=d.sala.nombre
+        if sala_nombre not in data[edificio][day]:
+            data[edificio][day][sala_nombre]=[]
+        data[edificio][day][sala_nombre].append(d.bloque.nombre)
+
+    return render(request,'myapp/salas_piso_1.html',{'data':data})
 
 def salas_piso_2(request):
     info=Disponibilidad.objects.filter(sala__piso__numero=2, estado='Libre').select_related('sala', 'bloque')

@@ -3,7 +3,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Mapa piso 1</title>
+  <title>Ver coordenadas</title>
 
   <link
     rel="stylesheet"
@@ -19,10 +19,10 @@
   </style>
 </head>
 <body>
-  <h2>Mapa piso 1</h2>
+  <h2>Coordenadas</h2>
 
-  <div style="margin-bottom: 10px; font-weight: bold;">
-    Haga click sobre un edificio para ver la disponibilidad de salas en este piso.
+  <div id="coords" style="margin-bottom: 10px; font-weight: bold;">
+    Mueve el ratón sobre el mapa...
   </div>
 
   <div id="map"></div>
@@ -41,25 +41,13 @@
     var image = L.imageOverlay(url, bounds).addTo(map);
     map.fitBounds(bounds);
 
-    const regiones = [
-      { nombre: "edf_A", coords: [[251,1197], [1093, 1654]] },
-      { nombre: "edf_B", coords: [[2167,165], [2006, 1275]] },
-      { nombre: "edf_F", coords: [[389,297], [173, 1175]] },
-    ];
+    var coordsDiv = document.getElementById('coords');
 
-
-    const destino = "{% url 'salas_piso_1' %}";
-  
-    regiones.forEach(r => {
-      L.rectangle(r.coords, { color: "white", weight: 2, opacity: 0 })
-        .addTo(map)
-        .on("click", function() {
-          window.location.href = destino;
-        });
+    map.on('mousemove', function(e) {
+      var lat = e.latlng.lat.toFixed(2);
+      var lng = e.latlng.lng.toFixed(2);
+      coordsDiv.innerHTML = `x: ${lng}, y: ${lat}`;
     });
   </script>
-
-
-
 </body>
 </html>
