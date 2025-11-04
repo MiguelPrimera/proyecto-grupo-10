@@ -83,49 +83,23 @@ def lista(request):
     publicaciones = Publicacion.objects.all().order_by('-fecha_creacion')
     return render(request, 'myapp/lista.html', {'publicaciones': publicaciones})
 
-def mapa(request):
-    return render(request, 'myapp/mapa.html')
+def seleccion_piso(request):
+    return render(request, 'myapp/seleccion_piso.html')
+
+def mapa_piso_1(request):
+    return render(request, 'myapp/mapa_piso_1.html')
+
+def mapa_piso_2(request):
+    return render(request, 'myapp/mapa_piso_2.html')
+
+def mapa_piso_3(request):
+    return render(request, 'myapp/mapa_piso_3.html')
+
+def mapa_piso_4(request):
+    return render(request, 'myapp/mapa_piso_4.html')
 
 def coords(request):  #para facilitar encontrar las coordenadas en pixeles
     return render(request, 'myapp/coords.html')
-
-'''
-def salas_piso_1(request):
-    info=Disponibilidad.objects.filter(sala__piso__numero=1, estado='Libre').select_related('sala', 'bloque')
-    lunes={}
-    martes={}
-    miercoles={}
-    jueves={}
-    viernes={}
-    for d in info:
-        if d.dia.nombre=="Lunes":
-            sala_nombre=d.sala.nombre
-            if sala_nombre not in lunes:
-                lunes[sala_nombre]=[]
-            lunes[sala_nombre].append(d.bloque.nombre)
-        elif d.dia.nombre=="Martes":
-            sala_nombre=d.sala.nombre
-            if sala_nombre not in martes:
-                martes[sala_nombre]=[]
-            martes[sala_nombre].append(d.bloque.nombre)
-        elif d.dia.nombre=="Miércoles":
-            sala_nombre=d.sala.nombre
-            if sala_nombre not in miercoles:
-                miercoles[sala_nombre]=[]
-            miercoles[sala_nombre].append(d.bloque.nombre)
-        elif d.dia.nombre=="Jueves":
-            sala_nombre=d.sala.nombre
-            if sala_nombre not in jueves:
-                jueves[sala_nombre]=[]
-            jueves[sala_nombre].append(d.bloque.nombre)
-        elif d.dia.nombre=="Viernes":
-            sala_nombre=d.sala.nombre
-            if sala_nombre not in viernes:
-                viernes[sala_nombre]=[]
-            viernes[sala_nombre].append(d.bloque.nombre)
-        
-    return render(request, 'myapp/salas_piso_1.html', {'lunes': lunes,'martes': martes,'miercoles': miercoles,'jueves': jueves,'viernes': viernes})
-'''
 
 def salas_piso_1(request):
 
@@ -134,10 +108,8 @@ def salas_piso_1(request):
     for d in info:
         edificio='Edificio '+d.sala.nombre[0]
         if edificio not in data:
-            data[edificio]={}
+            data[edificio]={"Lunes":{}, "Martes":{}, "Miércoles":{}, "Jueves":{}, "Viernes":{}}
         day=d.dia.nombre
-        if day not in data[edificio]:
-            data[edificio][day]={}
         sala_nombre=d.sala.nombre
         if sala_nombre not in data[edificio][day]:
             data[edificio][day][sala_nombre]=[]
@@ -146,110 +118,49 @@ def salas_piso_1(request):
     return render(request,'myapp/salas_piso_1.html',{'data':data})
 
 def salas_piso_2(request):
+
     info=Disponibilidad.objects.filter(sala__piso__numero=2, estado='Libre').select_related('sala', 'bloque')
-    lunes={}
-    martes={}
-    miercoles={}
-    jueves={}
-    viernes={}
+    data={}
     for d in info:
-        if d.dia.nombre=="Lunes":
-            sala_nombre=d.sala.nombre
-            if sala_nombre not in lunes:
-                lunes[sala_nombre]=[]
-            lunes[sala_nombre].append(d.bloque.nombre)
-        elif d.dia.nombre=="Martes":
-            sala_nombre=d.sala.nombre
-            if sala_nombre not in martes:
-                martes[sala_nombre]=[]
-            martes[sala_nombre].append(d.bloque.nombre)
-        elif d.dia.nombre=="Miércoles":
-            sala_nombre=d.sala.nombre
-            if sala_nombre not in miercoles:
-                miercoles[sala_nombre]=[]
-            miercoles[sala_nombre].append(d.bloque.nombre)
-        elif d.dia.nombre=="Jueves":
-            sala_nombre=d.sala.nombre
-            if sala_nombre not in jueves:
-                jueves[sala_nombre]=[]
-            jueves[sala_nombre].append(d.bloque.nombre)
-        elif d.dia.nombre=="Viernes":
-            sala_nombre=d.sala.nombre
-            if sala_nombre not in viernes:
-                viernes[sala_nombre]=[]
-            viernes[sala_nombre].append(d.bloque.nombre)
-        
-    return render(request, 'myapp/salas_piso_2.html', {'lunes': lunes,'martes': martes,'miercoles': miercoles,'jueves': jueves,'viernes': viernes})
+        edificio='Edificio '+d.sala.nombre[0]
+        if edificio not in data:
+            data[edificio]={"Lunes":{}, "Martes":{}, "Miércoles":{}, "Jueves":{}, "Viernes":{}}
+        day=d.dia.nombre
+        sala_nombre=d.sala.nombre
+        if sala_nombre not in data[edificio][day]:
+            data[edificio][day][sala_nombre]=[]
+        data[edificio][day][sala_nombre].append(d.bloque.nombre)
+
+    return render(request,'myapp/salas_piso_2.html',{'data':data})
 
 def salas_piso_3(request):
+
     info=Disponibilidad.objects.filter(sala__piso__numero=3, estado='Libre').select_related('sala', 'bloque')
-    lunes={}
-    martes={}
-    miercoles={}
-    jueves={}
-    viernes={}
+    data={}
     for d in info:
-        if d.dia.nombre=="Lunes":
-            sala_nombre=d.sala.nombre
-            if sala_nombre not in lunes:
-                lunes[sala_nombre]=[]
-            lunes[sala_nombre].append(d.bloque.nombre)
-        elif d.dia.nombre=="Martes":
-            sala_nombre=d.sala.nombre
-            if sala_nombre not in martes:
-                martes[sala_nombre]=[]
-            martes[sala_nombre].append(d.bloque.nombre)
-        elif d.dia.nombre=="Miércoles":
-            sala_nombre=d.sala.nombre
-            if sala_nombre not in miercoles:
-                miercoles[sala_nombre]=[]
-            miercoles[sala_nombre].append(d.bloque.nombre)
-        elif d.dia.nombre=="Jueves":
-            sala_nombre=d.sala.nombre
-            if sala_nombre not in jueves:
-                jueves[sala_nombre]=[]
-            jueves[sala_nombre].append(d.bloque.nombre)
-        elif d.dia.nombre=="Viernes":
-            sala_nombre=d.sala.nombre
-            if sala_nombre not in viernes:
-                viernes[sala_nombre]=[]
-            viernes[sala_nombre].append(d.bloque.nombre)
-        
-    return render(request, 'myapp/salas_piso_3.html', {'lunes': lunes,'martes': martes,'miercoles': miercoles,'jueves': jueves,'viernes': viernes})
+        edificio='Edificio '+d.sala.nombre[0]
+        if edificio not in data:
+            data[edificio]={"Lunes":{}, "Martes":{}, "Miércoles":{}, "Jueves":{}, "Viernes":{}}
+        day=d.dia.nombre
+        sala_nombre=d.sala.nombre
+        if sala_nombre not in data[edificio][day]:
+            data[edificio][day][sala_nombre]=[]
+        data[edificio][day][sala_nombre].append(d.bloque.nombre)
+
+    return render(request,'myapp/salas_piso_3.html',{'data':data})
 
 def salas_piso_4(request):
-    info=Disponibilidad.objects.filter(sala__piso__numero=4, estado='Libre').select_related('sala', 'bloque')
-    lunes={}
-    martes={}
-    miercoles={}
-    jueves={}
-    viernes={}
-    for d in info:
-        if d.dia.nombre=="Lunes":
-            sala_nombre=d.sala.nombre
-            if sala_nombre not in lunes:
-                lunes[sala_nombre]=[]
-            lunes[sala_nombre].append(d.bloque.nombre)
-        elif d.dia.nombre=="Martes":
-            sala_nombre=d.sala.nombre
-            if sala_nombre not in martes:
-                martes[sala_nombre]=[]
-            martes[sala_nombre].append(d.bloque.nombre)
-        elif d.dia.nombre=="Miércoles":
-            sala_nombre=d.sala.nombre
-            if sala_nombre not in miercoles:
-                miercoles[sala_nombre]=[]
-            miercoles[sala_nombre].append(d.bloque.nombre)
-        elif d.dia.nombre=="Jueves":
-            sala_nombre=d.sala.nombre
-            if sala_nombre not in jueves:
-                jueves[sala_nombre]=[]
-            jueves[sala_nombre].append(d.bloque.nombre)
-        elif d.dia.nombre=="Viernes":
-            sala_nombre=d.sala.nombre
-            if sala_nombre not in viernes:
-                viernes[sala_nombre]=[]
-            viernes[sala_nombre].append(d.bloque.nombre)
-        
-    return render(request, 'myapp/salas_piso_4.html', {'lunes': lunes,'martes': martes,'miercoles': miercoles,'jueves': jueves,'viernes': viernes})
 
+    info=Disponibilidad.objects.filter(sala__piso__numero=4, estado='Libre').select_related('sala', 'bloque')
+    data={}
+    for d in info:
+        edificio='Edificio '+d.sala.nombre[0]
+        if edificio not in data:
+            data[edificio]={"Lunes":{}, "Martes":{}, "Miércoles":{}, "Jueves":{}, "Viernes":{}}
+        day=d.dia.nombre
+        sala_nombre=d.sala.nombre
+        if sala_nombre not in data[edificio][day]:
+            data[edificio][day][sala_nombre]=[]
+        data[edificio][day][sala_nombre].append(d.bloque.nombre)
+
+    return render(request,'myapp/salas_piso_4.html',{'data':data})

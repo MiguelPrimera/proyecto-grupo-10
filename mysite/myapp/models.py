@@ -43,8 +43,6 @@ class Sala(models.Model):
 
 class Bloque(models.Model):
     nombre = models.CharField(max_length=5, unique=True)
-    hora_inicio = models.TimeField()
-    hora_fin = models.TimeField()
 
     def __str__(self):
         return self.nombre

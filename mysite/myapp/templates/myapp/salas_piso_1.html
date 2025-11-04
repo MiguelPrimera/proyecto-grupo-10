@@ -1,42 +1,24 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salas Libres - Piso 1</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'myapp/design_salas_disponibles.css' %}">
-</head>
-<body>
-    <main class="content">
-        <h1>Salas Libres - Piso 1</h1>
-
-        <div class="accordion">
-            {% for edificio, dias in data.items %}
-            <details class="level-1">
-                <summary><h2>{{ edificio }}</h2></summary>
-
-                {% for dia, salas in dias.items %}
-                <details class="level-2">
-                    <summary><h3>{{ dia }}</h3></summary>
-
-                    {% for sala, bloques in salas.items %}
-                    <details class="level-3">
-                        <summary><h4>{{ sala }}</h4></summary>
-                        <ul>
-                            {% for bloque in bloques %}
-                            <li>{{ bloque }}</li>
-                            {% endfor %}
-                        </ul>
-                    </details>
-                    {% endfor %}
-                </details>
-                {% endfor %}
-            </details>
-            {% empty %}
-            <p class="no-data">No hay información disponible en este momento.</p>
-            {% endfor %}
-        </div>
-    </main>
-</body>
-</html>
+{% extends "myapp/mapa_piso_1.html" %}
+{% block content %}
+<h1>Salas Libres - Piso 1</h1>
+{% for edificio, dias in data.items %}
+  <details>
+    <summary>{{ edificio }}</summary>
+    {% for dia, salas in dias.items %}
+      <details>
+        <summary>-{{ dia }}</summary>
+        {% for sala, bloques in salas.items %}
+          <details>
+            <summary>--{{ sala }}:</summary>
+            <ul>
+              {% for bloque in bloques %}
+                <li>{{ bloque }}</li>
+              {% endfor %}
+            </ul>
+          </details>
+        {% endfor %}
+      </details>
+    {% endfor %}
+  </details>
+{% endfor %}
+{% endblock %}
