@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from .forms import PublicacionForm
-from .models import Publicacion
+from .models import Publicaciones, UnionGrupo
+from django.contrib.auth.decorators import login_required
 from .models import Disponibilidad
 
 def home(request):
@@ -69,19 +70,54 @@ def logout_view(request):
     messages.success(request, "Has cerrado sesión correctamente.")
     return redirect('login')
 
-def crear(request):
+@login_required
+def crear_publicacion(request):
     if request.method == 'POST':
         form = PublicacionForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('lista')
+            publicacion = form.save(commit=False)
+            publicacion.creador = request.user
+            publicacion.save()
+            messages.success(request, 'Publicación creada correctamente.')
+            return redirect('lista_publicaciones')
     else:
         form = PublicacionForm()
-    return render(request, 'myapp/crear.html', {'form': form})
+    return render(request, 'myapp/crear_publicacion.html', {'form': form})
 
-def lista(request):
-    publicaciones = Publicacion.objects.all().order_by('-fecha_creacion')
-    return render(request, 'myapp/lista.html', {'publicaciones': publicaciones})
+def lista_publicaciones(request):
+    publicaciones = Publicaciones.objects.all().order_by('-fecha_creacion')
+    return render(request, 'myapp/lista_publicaciones.html', {'publicaciones': publicaciones})
+
+@login_required
+def unirse_grupo(request, publicacion_id):
+    publicacion = get_object_or_404(Publicaciones, pk=publicacion_id)
+    
+    if UnionGrupo.objects.filter(usuario=request.user, publicacion=publicacion).exists():
+        messages.warning(request, 'Ya estás unido a este grupo.')
+    elif publicacion.cupos_disponibles <= 0:
+        messages.error(request, 'No quedan cupos disponibles.')
+    else:
+        UnionGrupo.objects.create(usuario=request.user, publicacion=publicacion)
+        publicacion.cupos_disponibles -= 1
+        publicacion.save()
+        messages.success(request, 'Te has unido al grupo exitosamente.')
+    
+    return redirect('lista_publicaciones')
+
+@login_required
+def borrar_publicacion(request, publicacion_id):
+    publicacion = get_object_or_404(Publicaciones, pk=publicacion_id)
+
+    if publicacion.creador != request.user:
+        messages.error(request, 'No tienes permiso para borrar esta publicación.')
+        return redirect('lista_publicaciones')
+
+    if request.method == 'POST':
+        publicacion.delete()
+        messages.success(request, 'Publicación eliminada correctamente.')
+        return redirect('lista_publicaciones')
+
+    return render(request, 'myapp/confirmar_borrado.html', {'publicacion': publicacion})
 
 def seleccion_piso(request):
     return render(request, 'myapp/seleccion_piso.html')

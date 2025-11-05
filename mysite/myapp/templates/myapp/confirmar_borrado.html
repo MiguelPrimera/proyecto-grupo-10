@@ -1,0 +1,9 @@
+<h2>Eliminar publicación</h2>
+
+<p>¿Seguro que quieres borrar la publicación <strong>"{{ publicacion.titulo }}"</strong>?</p>
+
+<form method="POST">
+  {% csrf_token %}
+  <button type="submit" style="background-color:red; color:white;">Sí, borrar</button>
+  <a href="{% url 'lista_publicaciones' %}">Cancelar</a>
+</form>

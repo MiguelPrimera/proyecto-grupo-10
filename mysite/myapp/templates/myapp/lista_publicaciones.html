@@ -1,0 +1,30 @@
+<h2>Grupos de Estudio</h2>
+
+{% for pub in publicaciones %}
+  <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+    <h3>{{ pub.titulo }}</h3>
+    <p>{{ pub.contenido }}</p>
+    <p><strong>Opción:</strong> {{ pub.get_opcion_display }}</p>
+    <p><strong>Cupos:</strong> {{ pub.cupos_disponibles }} / {{ pub.cupos_maximos }}</p>
+    <p><strong>Creador:</strong> {{ pub.creador.username }}</p>
+
+    {% if user.is_authenticated %}
+      {% if user == pub.creador %}
+        <form action="{% url 'borrar_publicacion' pub.id %}" method="GET" style="display:inline;">
+          <button type="submit">🗑️ Borrar</button>
+        </form>
+      {% else %}
+        <form action="{% url 'unirse_grupo' pub.id %}" method="POST" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit" {% if pub.cupos_disponibles == 0 %}disabled{% endif %}>
+            Unirse al grupo
+          </button>
+        </form>
+      {% endif %}
+    {% else %}
+      <p>Inicia sesión para unirte o crear grupos.</p>
+    {% endif %}
+  </div>
+{% empty %}
+  <p>No hay publicaciones disponibles.</p>
+{% endfor %}

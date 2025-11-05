@@ -22,8 +22,8 @@
     </nav>
     {% if user.is_authenticated %}
     <div class="options-container">
-        <a href="{% url 'crear' %}" class="option-card">Crear una nueva publicación</a>
-        <a href="{% url 'lista' %}" class="option-card">Explorar otras publicaciones</a>
+        <a href="{% url 'crear_publicacion' %}" class="option-card">Crear una nueva publicación</a>
+        <a href="{% url 'lista_publicaciones' %}" class="option-card">Explorar otras publicaciones</a>
         <a href="{% url 'seleccion_piso' %}" class="option-card">Revisar disponibilidad de salas</a>
     </div>
     {% else %}
