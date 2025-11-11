@@ -1,8 +1,8 @@
 <style>
   .contenedor-principal {
     display: flex;
-    height: 100vh;          /* toda la altura visible */
-    overflow: hidden;       /* evita que el body tenga scroll extra */
+    height: 100vh;
+    overflow: hidden;
   }
 
   .contenido {
@@ -16,11 +16,58 @@
     background-color: #f5f5f5;
     border-left: 1px solid #ccc;
     padding: 15px;
-    overflow-y: auto;       
+    overflow-y: auto;
+  } 
+  #message-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
   }
+
+  .alert {
+    padding: 12px 18px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    font-family: sans-serif;
+    font-size: 15px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    opacity: 0.95;
+    transition: opacity 0.5s ease-out;
+  }
+
+  .alert-success {
+    background-color: #d4edda;
+    color: #155724;
+  }
+
+  .alert-error, .alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+
+  .alert-warning {
+    background-color: #fff3cd;
+    color: #856404;
+  }
+
+  .alert-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+  }
+
 </style>
 
 <h1>Grupos de Estudio</h1>
+{% if messages %}
+  <div id="message-container">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
 <div class="contenedor-principal">
   <div class="contenido">
     {% for pub in publicaciones %}
@@ -61,3 +108,12 @@
     {% endfor %}
   </div>
 </div>
+<script>
+  setTimeout(() => {
+    const messages = document.querySelectorAll('#message-container .alert');
+    messages.forEach(msg => {
+      msg.style.opacity = '0';
+      setTimeout(() => msg.remove(), 500);
+    });
+  }, 5000);
+</script>

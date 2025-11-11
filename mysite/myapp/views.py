@@ -10,9 +10,6 @@ from .models import Disponibilidad
 def home(request):
     return render(request, 'myapp/home.html')
 
-def prueba(request):
-    return render(request, 'myapp/prueba.html', {'lista':["uno", "dos", "tres"]})
-
 def register(request):
 
     if request.user.is_authenticated:
@@ -112,14 +109,11 @@ def borrar_publicacion(request, publicacion_id):
 
     if publicacion.creador != request.user:
         messages.error(request, 'No tienes permiso para borrar esta publicación.')
-        return redirect('lista_publicaciones')
-
-    if request.method == 'POST':
+    else:
         publicacion.delete()
         messages.success(request, 'Publicación eliminada correctamente.')
-        return redirect('lista_publicaciones')
 
-    return render(request, 'myapp/confirmar_borrado.html', {'publicacion': publicacion})
+    return redirect('lista_publicaciones')
 
 def seleccion_piso(request):
     return render(request, 'myapp/seleccion_piso.html')
