@@ -86,7 +86,9 @@ def crear_publicacion(request):
 
 def lista_publicaciones(request):
     publicaciones = Publicaciones.objects.all().order_by('-fecha_creacion')
-    return render(request, 'myapp/lista_publicaciones.html', {'publicaciones': publicaciones})
+    usuario = request.user
+    unido = UnionGrupo.objects.filter(usuario=usuario)
+    return render(request, 'myapp/lista_publicaciones.html', {'publicaciones': publicaciones, 'unido': unido})
 
 @login_required
 def unirse_grupo(request, publicacion_id):

@@ -4,39 +4,6 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-class Publicaciones(models.Model):
-    OPCIONES = [
-        ('1', 'Opción 1'),
-        ('2', 'Opción 2'),
-        ('3', 'Opción 3'),
-    ]
-
-    titulo = models.CharField(max_length=100)
-    contenido = models.TextField()
-    opcion = models.CharField(max_length=1, choices=OPCIONES)
-    cupos_maximos = models.PositiveIntegerField(default=1)
-    cupos_disponibles = models.PositiveIntegerField(editable=False)
-    creador = models.ForeignKey(User, on_delete=models.CASCADE)
-    fecha_creacion = models.DateTimeField(auto_now_add=True)
-
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            self.cupos_disponibles = self.cupos_maximos
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return self.titulo
-
-class UnionGrupo(models.Model):
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-    publicacion = models.ForeignKey(Publicaciones, on_delete=models.CASCADE, related_name='participantes')
-
-    class Meta:
-        unique_together = ('usuario', 'publicacion')
-
-    def __str__(self):
-        return f"{self.usuario.username} → {self.publicacion.titulo}"
-
 class Dia(models.Model):
     nombre = models.CharField(max_length=10, unique=True)
 
@@ -77,6 +44,31 @@ class Disponibilidad(models.Model):
 
     def __str__(self):
         return f"{self.sala} - {self.dia} - {self.bloque}: {self.estado}"
-    
 
+class Publicaciones(models.Model):
 
+    titulo = models.CharField(max_length=100)
+    contenido = models.TextField()
+    sala = models.ForeignKey('Sala', on_delete=models.CASCADE, related_name='publicaciones')
+    cupos_maximos = models.PositiveIntegerField(default=1)
+    cupos_disponibles = models.PositiveIntegerField(editable=False)
+    creador = models.ForeignKey(User, on_delete=models.CASCADE)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.cupos_disponibles = self.cupos_maximos
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.titulo
+
+class UnionGrupo(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    publicacion = models.ForeignKey(Publicaciones, on_delete=models.CASCADE, related_name='participantes')
+
+    class Meta:
+        unique_together = ('usuario', 'publicacion')
+
+    def __str__(self):
+        return f"{self.usuario.username} → {self.publicacion.titulo}"

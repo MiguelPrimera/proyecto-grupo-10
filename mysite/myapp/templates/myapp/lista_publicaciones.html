@@ -1,30 +1,63 @@
-<h2>Grupos de Estudio</h2>
+<style>
+  .contenedor-principal {
+    display: flex;
+    height: 100vh;          /* toda la altura visible */
+    overflow: hidden;       /* evita que el body tenga scroll extra */
+  }
 
-{% for pub in publicaciones %}
-  <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
-    <h3>{{ pub.titulo }}</h3>
-    <p>{{ pub.contenido }}</p>
-    <p><strong>Opción:</strong> {{ pub.get_opcion_display }}</p>
-    <p><strong>Cupos:</strong> {{ pub.cupos_disponibles }} / {{ pub.cupos_maximos }}</p>
-    <p><strong>Creador:</strong> {{ pub.creador.username }}</p>
+  .contenido {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+  }
 
-    {% if user.is_authenticated %}
-      {% if user == pub.creador %}
-        <form action="{% url 'borrar_publicacion' pub.id %}" method="GET" style="display:inline;">
-          <button type="submit">🗑️ Borrar</button>
-        </form>
-      {% else %}
-        <form action="{% url 'unirse_grupo' pub.id %}" method="POST" style="display:inline;">
-          {% csrf_token %}
-          <button type="submit" {% if pub.cupos_disponibles == 0 %}disabled{% endif %}>
-            Unirse al grupo
-          </button>
-        </form>
-      {% endif %}
-    {% else %}
-      <p>Inicia sesión para unirte o crear grupos.</p>
-    {% endif %}
+  .panel-derecho {
+    width: 300px;
+    background-color: #f5f5f5;
+    border-left: 1px solid #ccc;
+    padding: 15px;
+    overflow-y: auto;       
+  }
+</style>
+
+<h1>Grupos de Estudio</h1>
+<div class="contenedor-principal">
+  <div class="contenido">
+    {% for pub in publicaciones %}
+      <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+        <h3>{{ pub.titulo }}</h3>
+        <p>{{ pub.contenido }}</p>
+        <p><strong>Opción:</strong> {{ pub.get_opcion_display }}</p>
+        <p><strong>Cupos:</strong> {{ pub.cupos_disponibles }} / {{ pub.cupos_maximos }}</p>
+        <p><strong>Creador:</strong> {{ pub.creador.username }}</p>
+
+        {% if user.is_authenticated %}
+          {% if user == pub.creador %}
+            <form action="{% url 'borrar_publicacion' pub.id %}" method="GET" style="display:inline;">
+              <button type="submit">🗑️ Borrar</button>
+            </form>
+          {% else %}
+            <form action="{% url 'unirse_grupo' pub.id %}" method="POST" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" {% if pub.cupos_disponibles == 0 %}disabled{% endif %}>
+                Unirse al grupo
+              </button>
+            </form>
+          {% endif %}
+        {% else %}
+          <p>Inicia sesión para unirte o crear grupos.</p>
+        {% endif %}
+      </div>
+    {% empty %}
+      <p>No hay publicaciones disponibles.</p>
+    {% endfor %}
   </div>
-{% empty %}
-  <p>No hay publicaciones disponibles.</p>
-{% endfor %}
+  <div class="panel-derecho">
+    <h1>Eres miembro de:</h1>
+    {% for grupo in unido %}
+    <p>
+      {{grupo.publicacion.titulo}}
+    </p>
+    {% endfor %}
+  </div>
+</div>
