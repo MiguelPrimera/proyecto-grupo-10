@@ -98,7 +98,7 @@
       <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
         <h3>{{ pub.titulo }}</h3>
         <p class='descripcion'>{{ pub.contenido }}</p>
-        <p><strong>Opción:</strong> {{ pub.get_opcion_display }}</p>
+        <p><strong>{{ pub.sala }}</strong></p>
         {% if pub.cupos_disponibles == 0 %}
         <p><strong>No hay cupos disponibles</strong>. {% if pub.cupos_maximos == 1 %}El único cupo del grupo fue tomado.{% else %}Los {{ pub.cupos_maximos }} cupos han sido tomados.{% endif %}</p>
         {% else %}
