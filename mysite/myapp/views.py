@@ -83,25 +83,46 @@ def crear_publicacion(request):
 
 @login_required(login_url='mensaje')
 def lista_publicaciones(request):
+
     publicaciones = Publicaciones.objects.all().order_by('-fecha_creacion')
     usuario = request.user
+    grupos_unidos = UnionGrupo.objects.filter(usuario=usuario).values_list('publicacion_id', flat=True)
     unido = UnionGrupo.objects.filter(usuario=usuario)
-    return render(request, 'myapp/lista_publicaciones.html', {'publicaciones': publicaciones, 'unido': unido})
 
-@login_required(login_url='mensaje')
+    return render(request, 'myapp/lista_publicaciones.html', {
+        'publicaciones': publicaciones,
+        'grupos_unidos': grupos_unidos,
+        'unido': unido
+    })
+
+
+@login_required
 def unirse_grupo(request, publicacion_id):
     publicacion = get_object_or_404(Publicaciones, pk=publicacion_id)
-    
-    if UnionGrupo.objects.filter(usuario=request.user, publicacion=publicacion).exists():
-        messages.warning(request, 'Ya estás unido a este grupo.')
-    elif publicacion.cupos_disponibles <= 0:
-        messages.error(request, 'No quedan cupos disponibles.')
-    else:
-        UnionGrupo.objects.create(usuario=request.user, publicacion=publicacion)
+
+    # Solo si hay cupos disponibles
+    if publicacion.cupos_disponibles > 0:
+        UnionGrupo.objects.get_or_create(usuario=request.user, publicacion=publicacion)
         publicacion.cupos_disponibles -= 1
         publicacion.save()
-        messages.success(request, 'Te has unido al grupo exitosamente.')
-    
+        messages.success(request, f'Te has unido al grupo "{publicacion.titulo}".')
+    else:
+        messages.error(request, 'No quedan cupos disponibles.')
+
+    return redirect('lista_publicaciones')
+
+
+@login_required
+def salir_grupo(request, publicacion_id):
+    publicacion = get_object_or_404(Publicaciones, pk=publicacion_id)
+    union = UnionGrupo.objects.filter(usuario=request.user, publicacion=publicacion).first()
+
+    if union:
+        union.delete()
+        publicacion.cupos_disponibles += 1
+        publicacion.save()
+        messages.success(request, f'Has salido del grupo "{publicacion.titulo}".')
+
     return redirect('lista_publicaciones')
 
 @login_required(login_url='mensaje')

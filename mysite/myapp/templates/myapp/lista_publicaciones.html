@@ -26,6 +26,7 @@
     padding: 15px;
     overflow-y: auto;
   } 
+
   #message-container {
     position: fixed;
     top: 20px;
@@ -44,29 +45,43 @@
     transition: opacity 0.5s ease-out;
   }
 
-  .alert-success {
-    background-color: #d4edda;
-    color: #155724;
+  .alert-success { background-color: #d4edda; color: #155724; }
+  .alert-error, .alert-danger { background-color: #f8d7da; color: #721c24; }
+  .alert-warning { background-color: #fff3cd; color: #856404; }
+  .alert-info { background-color: #d1ecf1; color: #0c5460; }
+
+  button {
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-weight: bold;
   }
 
-  .alert-error, .alert-danger {
-    background-color: #f8d7da;
-    color: #721c24;
+  .btn-unirse {
+    background-color: #008055;
+    color: white;
+  }
+  .btn-unirse:hover {
+    background-color: #006b46;
   }
 
-  .alert-warning {
-    background-color: #fff3cd;
-    color: #856404;
+  .btn-salir {
+    background-color: #e74c3c;
+    color: white;
+  }
+  .btn-salir:hover {
+    background-color: #c0392b;
   }
 
-  .alert-info {
-    background-color: #d1ecf1;
-    color: #0c5460;
+  .btn-borrar {
+    background-color: #999;
+    color: white;
   }
-
 </style>
 
 <h1>Grupos de Estudio</h1>
+
 {% if messages %}
   <div id="message-container">
     {% for message in messages %}
@@ -76,6 +91,7 @@
     {% endfor %}
   </div>
 {% endif %}
+
 <div class="contenedor-principal">
   <div class="contenido">
     {% for pub in publicaciones %}
@@ -83,35 +99,50 @@
         <h3>{{ pub.titulo }}</h3>
         <p class='descripcion'>{{ pub.contenido }}</p>
         <p><strong>Opción:</strong> {{ pub.get_opcion_display }}</p>
+        {% if pub.cupos_disponibles == 0 %}
+        <p><strong>No hay cupos disponibles</strong>. {% if pub.cupos_maximos == 1 %}El único cupo del grupo fue tomado.{% else %}Los {{ pub.cupos_maximos }} cupos han sido tomados.{% endif %}</p>
+        {% else %}
         <p><strong>Cupos disponibles:</strong> {{ pub.cupos_disponibles }} / {{ pub.cupos_maximos }}</p>
+        {% endif %}
         <p><strong>Creador:</strong> {{ pub.creador.username }}</p>
 
         {% if user == pub.creador %}
           <form action="{% url 'borrar_publicacion' pub.id %}" method="GET" style="display:inline;">
-            <button type="submit">🗑️ Borrar</button>
+            <button type="submit" class="btn-borrar">🗑️ Borrar</button>
           </form>
         {% else %}
-          <form action="{% url 'unirse_grupo' pub.id %}" method="POST" style="display:inline;">
-            {% csrf_token %}
-            <button type="submit" {% if pub.cupos_disponibles == 0 %}disabled{% endif %}>
-              Unirse al grupo
-            </button>
-          </form>
+          {% if pub.id in grupos_unidos %}
+            <form action="{% url 'salir_grupo' pub.id %}" method="POST" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="btn-salir">Salir del grupo</button>
+            </form>
+          {% else %}
+            {% if pub.cupos_disponibles > 0 %}
+            <form action="{% url 'unirse_grupo' pub.id %}" method="POST" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="btn-unirse" {% if pub.cupos_disponibles == 0 %}disabled{% endif %}>
+                Unirse al grupo
+              </button>
+            </form>
+            {% endif %}
+          {% endif %}
         {% endif %}
       </div>
     {% empty %}
       <p>No hay publicaciones disponibles.</p>
     {% endfor %}
   </div>
+
   <div class="panel-derecho">
     <h1>Eres miembro de:</h1>
     {% for grupo in unido %}
-    <p>
-      {{grupo.publicacion.titulo}}
-    </p>
+      <p>{{ grupo.publicacion.titulo }}</p>
+    {% empty %}
+      <p>No estás unido a ningún grupo.</p>
     {% endfor %}
   </div>
 </div>
+
 <script>
   setTimeout(() => {
     const messages = document.querySelectorAll('#message-container .alert');
