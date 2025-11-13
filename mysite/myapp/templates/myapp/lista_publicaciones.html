@@ -11,6 +11,14 @@
     overflow-y: auto;
   }
 
+  .descripcion {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+    max-width: 100%;
+  }
+
   .panel-derecho {
     width: 300px;
     background-color: #f5f5f5;
@@ -73,7 +81,7 @@
     {% for pub in publicaciones %}
       <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
         <h3>{{ pub.titulo }}</h3>
-        <p>{{ pub.contenido }}</p>
+        <p class='descripcion'>{{ pub.contenido }}</p>
         <p><strong>Opción:</strong> {{ pub.get_opcion_display }}</p>
         <p><strong>Cupos disponibles:</strong> {{ pub.cupos_disponibles }} / {{ pub.cupos_maximos }}</p>
         <p><strong>Creador:</strong> {{ pub.creador.username }}</p>

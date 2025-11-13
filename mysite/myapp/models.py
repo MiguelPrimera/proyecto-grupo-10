@@ -48,7 +48,7 @@ class Disponibilidad(models.Model):
 class Publicaciones(models.Model):
 
     titulo = models.CharField(max_length=100)
-    contenido = models.TextField()
+    contenido = models.TextField(max_length=700)
     sala = models.ForeignKey('Sala', on_delete=models.CASCADE, related_name='publicaciones')
     cupos_maximos = models.PositiveIntegerField(default=1)
     cupos_disponibles = models.PositiveIntegerField(editable=False)
