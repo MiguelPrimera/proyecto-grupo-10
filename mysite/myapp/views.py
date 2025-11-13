@@ -67,7 +67,7 @@ def logout_view(request):
     messages.success(request, "Has cerrado sesión correctamente.")
     return redirect('login')
 
-@login_required
+@login_required(login_url='mensaje')
 def crear_publicacion(request):
     if request.method == 'POST':
         form = PublicacionForm(request.POST)
@@ -81,13 +81,14 @@ def crear_publicacion(request):
         form = PublicacionForm()
     return render(request, 'myapp/crear_publicacion.html', {'form': form})
 
+@login_required(login_url='mensaje')
 def lista_publicaciones(request):
     publicaciones = Publicaciones.objects.all().order_by('-fecha_creacion')
     usuario = request.user
     unido = UnionGrupo.objects.filter(usuario=usuario)
     return render(request, 'myapp/lista_publicaciones.html', {'publicaciones': publicaciones, 'unido': unido})
 
-@login_required
+@login_required(login_url='mensaje')
 def unirse_grupo(request, publicacion_id):
     publicacion = get_object_or_404(Publicaciones, pk=publicacion_id)
     
@@ -103,7 +104,7 @@ def unirse_grupo(request, publicacion_id):
     
     return redirect('lista_publicaciones')
 
-@login_required
+@login_required(login_url='mensaje')
 def borrar_publicacion(request, publicacion_id):
     publicacion = get_object_or_404(Publicaciones, pk=publicacion_id)
 
@@ -196,3 +197,5 @@ def salas_piso_4(request):
         data[edificio][day][sala_nombre].append(d.bloque.nombre)
 
     return render(request,'myapp/salas_piso_4.html',{'data':data})
+def mensaje(request):
+    return render(request, 'myapp/mensaje.html')

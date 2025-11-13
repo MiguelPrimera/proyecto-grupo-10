@@ -5,11 +5,92 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Crear publicación</title>
   {% load static %}
-  <link rel="stylesheet" href="{% static 'myapp/design_home.css' %}">
   <style>
+    /* === Estilos del antiguo design_home.css === */
+    @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Lato", sans-serif;
+      background-image: url("{% static 'img/fondo_.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed; 
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.692);
+      z-index: -1;
+    }
+
+    .menu {
+      background-color:#1E3D59;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 30px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .menu ul {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .menu ul li:first-child {
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    .menu a {
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+      transition: 0.3s;
+      padding: 6px 10px;
+      border-radius: 6px;
+    }
+
+    .menu a:hover {
+      background-color: white;
+      color: #1E3D59;
+    }
+
+    @media (max-width: 600px) {
+      .menu {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .menu ul {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .menu ul li:first-child {
+        font-size: 16px;
+      }
+    }
     .crear-container {
       max-width: 600px;
-      background: white;
+      background: #1E3D59;
       margin: 80px auto;
       padding: 40px;
       border-radius: 16px;
@@ -18,7 +99,7 @@
 
     .crear-container h2 {
       text-align: center;
-      color: rgb(0, 128, 85);
+      color: white;
       margin-bottom: 25px;
       font-size: 26px;
     }
@@ -37,7 +118,7 @@
 
     form label {
       font-weight: 600;
-      color: #333;
+      color:white;
       margin-bottom: 6px;
     }
 
@@ -56,15 +137,15 @@
     form input:focus,
     form textarea:focus,
     form select:focus {
-      border-color: rgb(0, 128, 85);
+      border-color: #1E3D59;
       outline: none;
     }
 
     button[type="submit"] {
-      background-color: rgb(0, 128, 85);
+      background-color: #1E3D59;
       color: white;
+      border: 2px solid white;
       font-weight: bold;
-      border: none;
       border-radius: 10px;
       padding: 12px 16px;
       font-size: 16px;
@@ -74,23 +155,22 @@
     }
 
     button[type="submit"]:hover {
-      background-color: white;
-      color: rgb(0, 128, 85);
-      border: 2px solid rgb(0, 128, 85);
+      background-color:white;
+      color: #1E3D59;
     }
 
     .volver {
       display: inline-block;
       margin-top: 20px;
       text-decoration: none;
-      color: rgb(0, 128, 85);
+      color: #1E3D59;
       font-weight: bold;
       transition: 0.3s;
       text-align: center;
     }
 
     .volver:hover {
-      color: rgb(0, 165, 110);
+      color: #1E3D59;
     }
 
     @media (max-width: 600px) {

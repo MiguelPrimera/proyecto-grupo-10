@@ -1,9 +1,162 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Registro</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'myapp/design_registro_inicio.css' %}">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+        body {
+            font-family: "Lato", sans-serif;
+            background-image: url("{% static 'img/fondo_.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed; 
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.692);
+            z-index: -1;
+        }
+
+        .formulario {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .formulario1 {
+            background-color: white;
+            width: 400px;
+            border-radius: 8px;
+            padding: 20px 40px;
+            box-shadow: 0 10px 25px rgba(92, 99, 105, .2);
+        }
+
+        .formulario1 h1 {
+            font-size: 30px;
+            margin-bottom: 30px;
+        }
+
+        .contenedor {
+            position: relative;
+            height: 45px;
+            width: 90%;
+            margin-bottom: 17px;
+        }
+
+        .input {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            height: 100%;
+            width: 100%;
+            border: 1px solid #DADCE0;
+            border-radius: 7px;
+            font-size: 16px;
+            padding: 0 20px;
+            outline: none;
+            background: none;
+            z-index: 1;
+        }
+
+        ::placeholder {
+            color: transparent;
+        }
+
+        .label {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            padding: 0 4px;
+            background-color: white;
+            color: #DADCE0;
+            font-size: 16px;
+            transition: 0.5s;
+            z-index: 0;
+        }
+
+        .boton {
+            display: block;
+            margin-left: auto;
+            padding: 15px 30px;
+            border: none;
+            background-color:#1E3D59;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 30px;
+        }
+
+        .boton:hover {
+        background-color:#2f5d85;
+        transform: translateY(-2px);
+        }
+
+        .input:focus + .label {
+        top: -7px;
+        left: 3px;
+        z-index: 10;
+        font-size: 14px;
+        font-weight: 600;
+        color:#1E3D59;
+        }
+
+        .input:focus {
+        border: 2px solid  #1E3D59;
+        }
+
+        .input:not(:placeholder-shown)+ .label {
+        top: -7px;
+        left: 3px;
+        z-index: 10;
+        font-size: 14px;
+        font-weight: 600;
+        }
+
+        #message-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .alert {
+            padding: 12px 18px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            font-family: sans-serif;
+            font-size: 15px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            opacity: 0.95;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .alert-error, .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .alert-warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .alert-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+    </style>
 </head>
 <body>
     <div class="formulario">

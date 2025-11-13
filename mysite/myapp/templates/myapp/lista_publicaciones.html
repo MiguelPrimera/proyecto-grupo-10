@@ -75,24 +75,20 @@
         <h3>{{ pub.titulo }}</h3>
         <p>{{ pub.contenido }}</p>
         <p><strong>Opción:</strong> {{ pub.get_opcion_display }}</p>
-        <p><strong>Cupos:</strong> {{ pub.cupos_disponibles }} / {{ pub.cupos_maximos }}</p>
+        <p><strong>Cupos disponibles:</strong> {{ pub.cupos_disponibles }} / {{ pub.cupos_maximos }}</p>
         <p><strong>Creador:</strong> {{ pub.creador.username }}</p>
 
-        {% if user.is_authenticated %}
-          {% if user == pub.creador %}
-            <form action="{% url 'borrar_publicacion' pub.id %}" method="GET" style="display:inline;">
-              <button type="submit">🗑️ Borrar</button>
-            </form>
-          {% else %}
-            <form action="{% url 'unirse_grupo' pub.id %}" method="POST" style="display:inline;">
-              {% csrf_token %}
-              <button type="submit" {% if pub.cupos_disponibles == 0 %}disabled{% endif %}>
-                Unirse al grupo
-              </button>
-            </form>
-          {% endif %}
+        {% if user == pub.creador %}
+          <form action="{% url 'borrar_publicacion' pub.id %}" method="GET" style="display:inline;">
+            <button type="submit">🗑️ Borrar</button>
+          </form>
         {% else %}
-          <p>Inicia sesión para unirte o crear grupos.</p>
+          <form action="{% url 'unirse_grupo' pub.id %}" method="POST" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" {% if pub.cupos_disponibles == 0 %}disabled{% endif %}>
+              Unirse al grupo
+            </button>
+          </form>
         {% endif %}
       </div>
     {% empty %}
