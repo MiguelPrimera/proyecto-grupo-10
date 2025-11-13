@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>home</title>
+    <title>Por favor inicie sesión</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
@@ -16,13 +16,24 @@
 
 
         body {
-        font-family: "lato", sans-serif;
-        background: #f5f7fa;
+        font-family: "Lato", sans-serif;
+        background-image: url("{% static 'img/fondo_.jpg' %}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        } 
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.692);
+            z-index: -1;
         }
 
-
         .menu {
-        background-color: rgb(0, 128, 85);
+        background-color: #1e3d59;
         color: white;
         display: flex;
         justify-content: space-between;
@@ -60,7 +71,7 @@
 
         .menu a:hover {
         background-color: white;
-        color: rgb(0, 165, 110);
+        color:#1e3d59;
         }
 
 
@@ -83,6 +94,7 @@
         }
 
         .mensaje {
+        color: white;
         margin-top: 220px;
         font-size: 50px;
         text-align: center;
