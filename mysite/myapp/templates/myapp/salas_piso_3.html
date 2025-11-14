@@ -1,24 +1,53 @@
 {% extends "myapp/mapa_piso_3.html" %}
+
 {% block content %}
-<h1>Salas Libres - Piso 3</h1>
-{% for edificio, dias in data.items %}
-  <details>
-    <summary>{{ edificio }}</summary>
-    {% for dia, salas in dias.items %}
-      <details>
-        <summary>-{{ dia }}</summary>
-        {% for sala, bloques in salas.items %}
-          <details>
-            <summary>--{{ sala }}:</summary>
-            <ul>
-              {% for bloque in bloques %}
-                <li>{{ bloque }}</li>
-              {% endfor %}
-            </ul>
-          </details>
-        {% endfor %}
-      </details>
+
+<h1 style="margin: 15px 0; color:#008055;">
+  {% if edificio_seleccionado %}
+    {{ edificio_seleccionado }} – Salas Libres (Piso 3)
+  {% else %}
+    Salas Libres – Piso 3
+  {% endif %}
+</h1>
+
+{% if data %}
+    {% for edificio, dias in data.items %}
+        <details style="margin-bottom: 12px;">
+            <summary style="font-size: 18px; font-weight: bold; cursor:pointer;">
+                🏛️ {{ edificio }}
+            </summary>
+
+            <div style="margin-left: 12px; margin-top: 8px;">
+                {% for dia, salas in dias.items %}
+                    <details style="margin-bottom: 8px;">
+                        <summary style="font-size: 16px; cursor:pointer;">
+                            📅 {{ dia }}
+                        </summary>
+
+                        <div style="margin-left: 12px; margin-top: 5px;">
+                            {% for sala, bloques in salas.items %}
+                                <details style="margin-bottom: 6px;">
+                                    <summary style="font-size: 15px; cursor:pointer;">
+                                        🏫 {{ sala }}
+                                    </summary>
+
+                                    <ul style="list-style: none; padding-left: 15px;">
+                                        {% for bloque in bloques %}
+                                            <li style="padding:3px 0; color:#008055; font-weight:bold;">
+                                                ✔ Bloque {{ bloque }}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </details>
+                            {% endfor %}
+                        </div>
+                    </details>
+                {% endfor %}
+            </div>
+        </details>
     {% endfor %}
-  </details>
-{% endfor %}
+{% else %}
+    <p style="font-size: 16px;">No hay salas libres disponibles.</p>
+{% endif %}
+
 {% endblock %}

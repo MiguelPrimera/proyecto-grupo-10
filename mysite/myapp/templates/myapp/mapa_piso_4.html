@@ -73,17 +73,23 @@
     map.fitBounds(bounds);
 
     const regiones = [
-      { nombre: "edf_F", coords: [[1428,291], [1018, 1588]] },
-      { nombre: "edf_K", coords: [[303,217], [77, 1109]] },
+      { nombre: "Edificio F", coords: [[1428,291], [1018, 1588]] },
+      { nombre: "Edificio K", coords: [[303,217], [77, 1109]] },
     ];
 
     const destino = "{% url 'salas_piso_4' %}";
 
     regiones.forEach(r => {
-      L.rectangle(r.coords, { color: "white", weight: 2, opacity: 0 })
-        .addTo(map)
-        .on("click", function() {
-          window.location.href = destino;
-        });
+      L.rectangle(r.coords, { 
+        color: "#008055",
+        weight: 2,
+        opacity: 0.4,
+        fillOpacity: 0.05
+      })
+      .addTo(map)
+      .bindTooltip(r.nombre)
+      .on("click", function() {
+        window.location.href = destino + "?edificio=" + encodeURIComponent(r.nombre);
+      });
     });
   </script>

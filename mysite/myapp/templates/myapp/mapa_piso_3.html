@@ -45,7 +45,7 @@
   </style>
 </head>
 <body>
-  <h2>Mapa piso 4</h2>
+  <h2>Mapa piso 3</h2>
 
   <div style="margin-bottom: 10px; font-weight: bold; margin-left: 5%;">
     Haga click sobre un edificio con salas para ver la disponibilidad de salas en este piso.
@@ -73,17 +73,23 @@
     map.fitBounds(bounds);
 
     const regiones = [
-      { nombre: "edf_F", coords: [[1440, 280], [1025, 1580]] },
-      { nombre: "edf_K", coords: [[313,207], [87, 1100]] },
+      { nombre: "Edificio F", coords: [[1440, 280], [1025, 1580]] },
+      { nombre: "Edificio K", coords: [[313,207], [87, 1100]] },
     ];
 
     const destino = "{% url 'salas_piso_3' %}";
 
     regiones.forEach(r => {
-      L.rectangle(r.coords, { color: "white", weight: 2, opacity: 0 })
-        .addTo(map)
-        .on("click", function() {
-          window.location.href = destino;
-        });
+      L.rectangle(r.coords, { 
+        color: "#008055",
+        weight: 2,
+        opacity: 0.4,
+        fillOpacity: 0.05
+      })
+      .addTo(map)
+      .bindTooltip(r.nombre)
+      .on("click", function() {
+        window.location.href = destino + "?edificio=" + encodeURIComponent(r.nombre);
+      });
     });
   </script>

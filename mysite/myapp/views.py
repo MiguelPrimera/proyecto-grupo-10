@@ -157,66 +157,146 @@ def coords(request):  #para facilitar encontrar las coordenadas en pixeles
 
 def salas_piso_1(request):
 
-    info=Disponibilidad.objects.filter(sala__piso__numero=1, estado='Libre').select_related('sala', 'bloque')
-    data={}
-    for d in info:
-        edificio='Edificio '+d.sala.nombre[0]
-        if edificio not in data:
-            data[edificio]={"Lunes":{}, "Martes":{}, "Miércoles":{}, "Jueves":{}, "Viernes":{}}
-        day=d.dia.nombre
-        sala_nombre=d.sala.nombre
-        if sala_nombre not in data[edificio][day]:
-            data[edificio][day][sala_nombre]=[]
-        data[edificio][day][sala_nombre].append(d.bloque.nombre)
+    # Obtener nombre del edificio que se hizo clic en el mapa
+    edificio_seleccionado = request.GET.get("edificio")
 
-    return render(request,'myapp/salas_piso_1.html',{'data':data})
+    # Todas las salas libres del piso 1
+    info = Disponibilidad.objects.filter(
+        sala__piso__numero=1,
+        estado='Libre'
+    ).select_related('sala', 'bloque')
+
+    data = {}
+    for d in info:
+        edificio = 'Edificio ' + d.sala.nombre[0]
+
+        if edificio not in data:
+            data[edificio] = {
+                "Lunes": {}, "Martes": {}, "Miércoles": {},
+                "Jueves": {}, "Viernes": {}
+            }
+
+        dia = d.dia.nombre
+        sala = d.sala.nombre
+
+        if sala not in data[edificio][dia]:
+            data[edificio][dia][sala] = []
+
+        data[edificio][dia][sala].append(d.bloque.nombre)
+
+    # SI se escogió un edificio, filtramos
+    if edificio_seleccionado in data:
+        data = {edificio_seleccionado: data[edificio_seleccionado]}
+
+    return render(request, 'myapp/salas_piso_1.html', {
+        'data': data,
+        'edificio_seleccionado': edificio_seleccionado,
+    })
 
 def salas_piso_2(request):
 
-    info=Disponibilidad.objects.filter(sala__piso__numero=2, estado='Libre').select_related('sala', 'bloque')
-    data={}
-    for d in info:
-        edificio='Edificio '+d.sala.nombre[0]
-        if edificio not in data:
-            data[edificio]={"Lunes":{}, "Martes":{}, "Miércoles":{}, "Jueves":{}, "Viernes":{}}
-        day=d.dia.nombre
-        sala_nombre=d.sala.nombre
-        if sala_nombre not in data[edificio][day]:
-            data[edificio][day][sala_nombre]=[]
-        data[edificio][day][sala_nombre].append(d.bloque.nombre)
+    edificio_seleccionado = request.GET.get("edificio")
 
-    return render(request,'myapp/salas_piso_2.html',{'data':data})
+    info = Disponibilidad.objects.filter(
+        sala__piso__numero=2,
+        estado='Libre'
+    ).select_related('sala', 'bloque')
+
+    data = {}
+    for d in info:
+        edificio = 'Edificio ' + d.sala.nombre[0]
+
+        if edificio not in data:
+            data[edificio] = {
+                "Lunes": {}, "Martes": {}, "Miércoles": {},
+                "Jueves": {}, "Viernes": {}
+            }
+
+        dia = d.dia.nombre
+        sala = d.sala.nombre
+
+        if sala not in data[edificio][dia]:
+            data[edificio][dia][sala] = []
+
+        data[edificio][dia][sala].append(d.bloque.nombre)
+
+    if edificio_seleccionado in data:
+        data = {edificio_seleccionado: data[edificio_seleccionado]}
+
+    return render(request, 'myapp/salas_piso_2.html', {
+        'data': data,
+        'edificio_seleccionado': edificio_seleccionado,
+    })
 
 def salas_piso_3(request):
 
-    info=Disponibilidad.objects.filter(sala__piso__numero=3, estado='Libre').select_related('sala', 'bloque')
-    data={}
-    for d in info:
-        edificio='Edificio '+d.sala.nombre[0]
-        if edificio not in data:
-            data[edificio]={"Lunes":{}, "Martes":{}, "Miércoles":{}, "Jueves":{}, "Viernes":{}}
-        day=d.dia.nombre
-        sala_nombre=d.sala.nombre
-        if sala_nombre not in data[edificio][day]:
-            data[edificio][day][sala_nombre]=[]
-        data[edificio][day][sala_nombre].append(d.bloque.nombre)
+    edificio_seleccionado = request.GET.get("edificio")
 
-    return render(request,'myapp/salas_piso_3.html',{'data':data})
+    info = Disponibilidad.objects.filter(
+        sala__piso__numero=3,
+        estado='Libre'
+    ).select_related('sala', 'bloque')
+
+    data = {}
+    for d in info:
+        edificio = 'Edificio ' + d.sala.nombre[0]
+
+        if edificio not in data:
+            data[edificio] = {
+                "Lunes": {}, "Martes": {}, "Miércoles": {},
+                "Jueves": {}, "Viernes": {}
+            }
+
+        dia = d.dia.nombre
+        sala = d.sala.nombre
+
+        if sala not in data[edificio][dia]:
+            data[edificio][dia][sala] = []
+
+        data[edificio][dia][sala].append(d.bloque.nombre)
+
+    if edificio_seleccionado in data:
+        data = {edificio_seleccionado: data[edificio_seleccionado]}
+
+    return render(request, 'myapp/salas_piso_3.html', {
+        'data': data,
+        'edificio_seleccionado': edificio_seleccionado,
+    })
 
 def salas_piso_4(request):
 
-    info=Disponibilidad.objects.filter(sala__piso__numero=4, estado='Libre').select_related('sala', 'bloque')
-    data={}
-    for d in info:
-        edificio='Edificio '+d.sala.nombre[0]
-        if edificio not in data:
-            data[edificio]={"Lunes":{}, "Martes":{}, "Miércoles":{}, "Jueves":{}, "Viernes":{}}
-        day=d.dia.nombre
-        sala_nombre=d.sala.nombre
-        if sala_nombre not in data[edificio][day]:
-            data[edificio][day][sala_nombre]=[]
-        data[edificio][day][sala_nombre].append(d.bloque.nombre)
+    edificio_seleccionado = request.GET.get("edificio")
 
-    return render(request,'myapp/salas_piso_4.html',{'data':data})
+    info = Disponibilidad.objects.filter(
+        sala__piso__numero=4,
+        estado='Libre'
+    ).select_related('sala', 'bloque')
+
+    data = {}
+    for d in info:
+        edificio = 'Edificio ' + d.sala.nombre[0]
+
+        if edificio not in data:
+            data[edificio] = {
+                "Lunes": {}, "Martes": {}, "Miércoles": {},
+                "Jueves": {}, "Viernes": {}
+            }
+
+        dia = d.dia.nombre
+        sala = d.sala.nombre
+
+        if sala not in data[edificio][dia]:
+            data[edificio][dia][sala] = []
+
+        data[edificio][dia][sala].append(d.bloque.nombre)
+
+    if edificio_seleccionado in data:
+        data = {edificio_seleccionado: data[edificio_seleccionado]}
+
+    return render(request, 'myapp/salas_piso_4.html', {
+        'data': data,
+        'edificio_seleccionado': edificio_seleccionado,
+    })
+
 def mensaje(request):
     return render(request, 'myapp/mensaje.html')

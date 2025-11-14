@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Publicaciones</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+        }
+
+        header {
+            background: #008055;
+            color: white;
+            padding: 15px 20px;
+        }
+
+        header a {
+            color: white;
+            margin-right: 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        header a:hover {
+            text-decoration: underline;
+        }
+
+        .contenido-principal {
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <a href="{% url 'home' %}">Inicio</a>
+    <a href="{% url 'lista_publicaciones' %}">Publicaciones</a>
+    <a href="{% url 'crear_publicacion' %}">Crear Publicación</a>
+
+    {% if user.is_authenticated %}
+        <span style="margin-left: 20px;">Hola, {{ user.username }}</span>
+        <a href="{% url 'logout' %}" style="float: right;">Cerrar sesión</a>
+    {% else %}
+        <a href="{% url 'login' %}" style="float:right;">Ingresar</a>
+    {% endif %}
+</header>
+
+<div class="contenido-principal">
+    {% block content %}
+    {% endblock %}
+</div>
+
+</body>
+</html>
