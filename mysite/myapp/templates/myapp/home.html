@@ -251,7 +251,7 @@
     <div class="options-container">
         {% if user.is_authenticated %}
         <a href="{% url 'crear_publicacion' %}" class="option-card">Crear un nuevo grupo</a>
-        <a href="{% url 'lista_publicaciones' %}" class="option-card">Ver grupos publicados</a>
+        <a href="{% url 'grupos_publicados' %}" class="option-card">Ver grupos publicados</a>
         {% else %}
         <a href="{% url 'mensaje' %}" class="option-card">Crear un nuevo grupo</a>
         <a href="{% url 'mensaje' %}" class="option-card">Ver grupos publicados</a>

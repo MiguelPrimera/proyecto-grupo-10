@@ -126,7 +126,6 @@
         .mensaje {
         color: white;
         margin-top: 220px;
-        font-size: 50px;
         text-align: center;
         opacity: 0;
         transform: translateY(50px);
@@ -167,8 +166,8 @@
     <ul>
       <li>{{ user.username }}</li>
       <li><a href="{% url 'home' %}">Volver al inicio</a></li>
-      <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
       <li><a href="{% url 'crear_publicacion' %}">Crear un grupo</a></li>
+      <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
     </ul>
   </nav>
 

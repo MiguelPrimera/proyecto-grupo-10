@@ -23,14 +23,22 @@ def register(request):
         if not username or not password1 or not password2:
             messages.error(request, "Debes completar todos los campos.")
             return redirect('register')
-
-        if password1 != password2:
-            messages.error(request, "Las contraseñas no coinciden.")
-            return redirect('register')
-
+        
         if User.objects.filter(username=username).exists():
             messages.error(request, "El nombre de usuario ya existe.")
             return redirect('register')
+        
+        elif len(username)>20:
+            messages.error(request, "Nombre de usuario muy largo.")
+            return redirect('register')
+        
+        if password1 != password2:
+            messages.error(request, "Las contraseñas no coinciden.")
+            return redirect('register')
+        
+        elif len(password1)<5:
+            messages.error(request, "Contraseña muy corta.")
+            return redirect('register') 
 
 
         user = User.objects.create_user(
@@ -76,20 +84,20 @@ def crear_publicacion(request):
             publicacion.creador = request.user
             publicacion.save()
             messages.success(request, 'Publicación creada correctamente.')
-            return redirect('lista_publicaciones')
+            return redirect('grupos_publicados')
     else:
         form = PublicacionForm()
     return render(request, 'myapp/crear_publicacion.html', {'form': form})
 
 @login_required(login_url='mensaje')
-def lista_publicaciones(request):
+def grupos_publicados(request):
 
     publicaciones = Publicaciones.objects.all().order_by('-fecha_creacion')
     usuario = request.user
     grupos_unidos = UnionGrupo.objects.filter(usuario=usuario).values_list('publicacion_id', flat=True)
     unido = UnionGrupo.objects.filter(usuario=usuario)
 
-    return render(request, 'myapp/lista_publicaciones.html', {
+    return render(request, 'myapp/grupos_publicados.html', {
         'publicaciones': publicaciones,
         'grupos_unidos': grupos_unidos,
         'unido': unido
@@ -109,7 +117,7 @@ def unirse_grupo(request, publicacion_id):
     else:
         messages.error(request, 'No quedan cupos disponibles.')
 
-    return redirect('lista_publicaciones')
+    return redirect('grupos_publicados')
 
 
 @login_required
@@ -123,7 +131,7 @@ def salir_grupo(request, publicacion_id):
         publicacion.save()
         messages.success(request, f'Has salido del grupo "{publicacion.titulo}".')
 
-    return redirect('lista_publicaciones')
+    return redirect('grupos_publicados')
 
 @login_required(login_url='mensaje')
 def borrar_publicacion(request, publicacion_id):
@@ -135,10 +143,7 @@ def borrar_publicacion(request, publicacion_id):
         publicacion.delete()
         messages.success(request, 'Publicación eliminada correctamente.')
 
-    return redirect('lista_publicaciones')
-
-def seleccion_piso(request):
-    return render(request, 'myapp/seleccion_piso.html')
+    return redirect('grupos_publicados')
 
 def mapa_piso_1(request):
     return render(request, 'myapp/mapa_piso_1.html')

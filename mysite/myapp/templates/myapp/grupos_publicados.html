@@ -27,9 +27,13 @@
             margin-bottom: 20px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         ">
-            <h2 style="margin-bottom: 10px;">{{ pub.titulo }}</h2>
+            <h2 style="margin-bottom: 10px; overflow-wrap: break-word; word-break: break-word;">
+                {{ pub.titulo }}
+            </h2>
 
-            <p style="font-size: 15px; color: #444; margin-bottom: 10px;">{{ pub.contenido }}</p>
+            <p style="font-size: 15px; color: #444; margin-bottom: 10px; overflow-wrap: break-word; word-break: break-word;">
+                {{ pub.contenido }}
+            </p>
 
             <p style="margin-bottom: 10px"><strong>Sala:</strong> {{ pub.sala.nombre }} — Piso {{ pub.sala.piso.numero }}</p>
             <p style="margin-bottom: 10px"><strong>Creado por:</strong> {{ pub.creador.username }}</p>
@@ -79,35 +83,51 @@
 
         </div>
         {% empty %}
-            <p class='mensaje'>Aún no hay grupos publicados.</p>
+            <p class='mensaje' style="font-size: 50px;">Aún no hay grupos publicados.</p>
         {% endfor %}
     </div>
 
     <div class="scroll" style="
         flex: 1;
-        background: white;
-        padding: 20px;
-        border-radius: 12px;
-        height: fit-content;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        padding: 0 5px;
         margin-top: 50px;
         position: sticky;
+        top: 20px;
         overflow-y: auto;
         max-height: 80vh;
     ">
+
         {% if unido %}
-            <h2>Eres miembro de:</h2>
+
+            <h2 style="color: white; margin-bottom: 20px;">
+                Eres miembro de:
+            </h2>
 
             {% for grupo in unido %}
-                <p style="margin: 8px 0;">
-                    {{ grupo.publicacion.titulo }} ({{grupo.publicacion.creador}})
-                </p>
+
+                <div style="
+                    background: white;
+                    border-radius: 12px;
+                    padding: 15px 20px;
+                    margin-bottom: 20px;
+                    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+                ">
+                    <h3 style="font-size: 17px; margin-bottom: 8px; overflow-wrap: break-word;">
+                        {{ grupo.publicacion.titulo }}
+                    </h3>
+
+                    <p style="font-size: 14px; color: #070707; margin: 0;">
+                        <strong>Creado por:</strong> {{ grupo.publicacion.creador.username }}
+                    </p>
+                </div>
+
             {% endfor %}
 
         {% else %}
-            <h2>Aquí aparecerán los grupos a los que te unas.</h2>
+            <p class='mensaje' style="font-size: 30px;">Aquí aparecerán los grupos a los que te unas.</p>
         {% endif %}
     </div>
+
     <script>
         setTimeout(() => {
             const messages = document.querySelectorAll('#message-container .alert');
