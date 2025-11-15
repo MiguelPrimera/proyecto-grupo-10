@@ -5,14 +5,16 @@
 
 <div style="display: flex; gap: 30px; width: 100%; padding: 20px;">
 
-    <div style="flex: 3;">
+    <div class="scroll" style="flex: 3; overflow-y: auto; height: 90vh;">
 
-        <h1 style="margin-bottom: 20px;">Grupos de Estudio</h1>
+        <h1 style="margin-bottom: 20px; color: white; margin-top: 30px; margin-bottom: 30px">Grupos de Estudio</h1>
 
         {% if messages %}
-        <div>
+        <div id="message-container">
             {% for message in messages %}
-                <p style="color: green; font-weight: bold;">{{ message }}</p>
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
             {% endfor %}
         </div>
         {% endif %}
@@ -27,10 +29,10 @@
         ">
             <h2 style="margin-bottom: 10px;">{{ pub.titulo }}</h2>
 
-            <p style="font-size: 15px; color: #444;">{{ pub.contenido }}</p>
+            <p style="font-size: 15px; color: #444; margin-bottom: 10px;">{{ pub.contenido }}</p>
 
-            <p><strong>Sala:</strong> {{ pub.sala.nombre }} — Piso {{ pub.sala.piso.numero }}</p>
-            <p><strong>Creado por:</strong> {{ pub.creador.username }}</p>
+            <p style="margin-bottom: 10px"><strong>Sala:</strong> {{ pub.sala.nombre }} — Piso {{ pub.sala.piso.numero }}</p>
+            <p style="margin-bottom: 10px"><strong>Creado por:</strong> {{ pub.creador.username }}</p>
 
             {% if pub.cupos_disponibles == 0 %}
                 <p style="color: red;"><strong>No hay cupos disponibles.</strong></p>
@@ -77,31 +79,44 @@
 
         </div>
         {% empty %}
-            <p>No hay publicaciones disponibles.</p>
+            <p class='mensaje'>Aún no hay grupos publicados.</p>
         {% endfor %}
     </div>
 
-    <div style="
+    <div class="scroll" style="
         flex: 1;
         background: white;
         padding: 20px;
         border-radius: 12px;
         height: fit-content;
         box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        margin-top: 50px;
+        position: sticky;
+        overflow-y: auto;
+        max-height: 80vh;
     ">
-        <h2>Eres miembro de:</h2>
+        {% if unido %}
+            <h2>Eres miembro de:</h2>
 
-        {% for grupo in unido %}
-            <p style="margin: 8px 0;">
-                • {{ grupo.publicacion.titulo }}
-            </p>
+            {% for grupo in unido %}
+                <p style="margin: 8px 0;">
+                    {{ grupo.publicacion.titulo }} ({{grupo.publicacion.creador}})
+                </p>
+            {% endfor %}
 
-        {% empty %}
-            <p>No estás unido a ningún grupo.</p>
-
-        {% endfor %}
+        {% else %}
+            <h2>Aquí aparecerán los grupos a los que te unas.</h2>
+        {% endif %}
     </div>
-
+    <script>
+        setTimeout(() => {
+            const messages = document.querySelectorAll('#message-container .alert');
+            messages.forEach(msg => {
+                msg.style.opacity = '0';
+                setTimeout(() => msg.remove(), 500);
+            });
+        }, 5000);
+    </script>
 </div>
 
 {% endblock %}

@@ -1,53 +1,48 @@
 {% extends "myapp/mapa_piso_2.html" %}
-
 {% block content %}
+<div id='info'>
+    <h1 style="margin: 25px 25px; color:black">
+        Salas Libres (Piso 2)
+    </h1>
 
-<h1 style="margin: 15px 0; color:#008055;">
-  {% if edificio_seleccionado %}
-    {{ edificio_seleccionado }} – Salas Libres (Piso 2)
-  {% else %}
-    Salas Libres – Piso 2
-  {% endif %}
-</h1>
+    {% if data %}
+        {% for edificio, dias in data.items %}
+            <details style="margin-bottom: 12px;">
+                <summary style="font-size: 18px; font-weight: bold; cursor:pointer; margin-left: 30px">
+                    🏛️ {{ edificio }}
+                </summary>
 
-{% if data %}
-    {% for edificio, dias in data.items %}
-        <details style="margin-bottom: 12px;">
-            <summary style="font-size: 18px; font-weight: bold; cursor:pointer;">
-                🏛️ {{ edificio }}
-            </summary>
+                <div style="margin-left: 32px; margin-top: 8px;">
+                    {% for dia, salas in dias.items %}
+                        <details style="margin-bottom: 8px;">
+                            <summary style="font-size: 16px; cursor:pointer;">
+                                📅 {{ dia }}
+                            </summary>
 
-            <div style="margin-left: 12px; margin-top: 8px;">
-                {% for dia, salas in dias.items %}
-                    <details style="margin-bottom: 8px;">
-                        <summary style="font-size: 16px; cursor:pointer;">
-                            📅 {{ dia }}
-                        </summary>
+                            <div style="margin-left: 12px; margin-top: 5px;">
+                                {% for sala, bloques in salas.items %}
+                                    <details style="margin-bottom: 6px;">
+                                        <summary style="font-size: 15px; cursor:pointer;">
+                                            🏫 {{ sala }}
+                                        </summary>
 
-                        <div style="margin-left: 12px; margin-top: 5px;">
-                            {% for sala, bloques in salas.items %}
-                                <details style="margin-bottom: 6px;">
-                                    <summary style="font-size: 15px; cursor:pointer;">
-                                        🏫 {{ sala }}
-                                    </summary>
-
-                                    <ul style="list-style: none; padding-left: 15px;">
-                                        {% for bloque in bloques %}
-                                            <li style="padding:3px 0; color:#008055; font-weight:bold;">
-                                                ✔ Bloque {{ bloque }}
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                </details>
-                            {% endfor %}
-                        </div>
-                    </details>
-                {% endfor %}
-            </div>
-        </details>
-    {% endfor %}
-{% else %}
-    <p style="font-size: 16px;">No hay salas libres disponibles.</p>
-{% endif %}
-
+                                        <ul style="list-style: none; padding-left: 15px;">
+                                            {% for bloque in bloques %}
+                                                <li style="padding:3px 0; color:#008055; font-weight:bold;">
+                                                    ✔ Bloque {{ bloque }}
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </details>
+                                {% endfor %}
+                            </div>
+                        </details>
+                    {% endfor %}
+                </div>
+            </details>
+        {% endfor %}
+    {% else %}
+        <p style="font-size: 16px;">No hay salas libres disponibles.</p>
+    {% endif %}
+</div>
 {% endblock %}
