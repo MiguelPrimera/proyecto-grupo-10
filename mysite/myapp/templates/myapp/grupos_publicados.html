@@ -37,6 +37,7 @@
 
             <p style="margin-bottom: 10px"><strong>Sala:</strong> {{ pub.sala.nombre }} — Piso {{ pub.sala.piso.numero }}</p>
             <p style="margin-bottom: 10px"><strong>Creado por:</strong> {{ pub.creador.username }}</p>
+            <p style="margin-bottom: 10px"><strong>Fecha de publicación:</strong> {{ pub.fecha_creacion }}</p>
 
             {% if pub.cupos_disponibles == 0 %}
                 <p style="color: red;"><strong>No hay cupos disponibles.</strong></p>

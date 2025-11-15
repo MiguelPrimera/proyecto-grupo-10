@@ -142,19 +142,9 @@
             color: #155724;
         }
 
-        .alert-error, .alert-danger {
+        .alert-error {
             background-color: #f8d7da;
             color: #721c24;
-        }
-
-        .alert-warning {
-            background-color: #fff3cd;
-            color: #856404;
-        }
-
-        .alert-info {
-            background-color: #d1ecf1;
-            color: #0c5460;
         }
     </style>
 </head>
@@ -182,7 +172,7 @@
             </div>
             <div class="contenedor">
                 <input type="password" name="password" class="input" placeholder="" required>
-                <label for="" class="label">Contraseña:</label>
+                <label for="" class="label">Contraseña</label>
             </div>
             <input type="submit" class="boton" value="Entrar">
             <p>¿No tienes cuenta? <a href="{% url 'register' %}">Regístrate aquí</a></p>

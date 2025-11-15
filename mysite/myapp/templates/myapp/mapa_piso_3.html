@@ -155,7 +155,7 @@
       {% else %}
       <li><a href="{% url 'login' %}">Iniciar sesión</a></li>
       {% endif %}
-      <li>Ver los demás mapas:</li>
+      <li>Ver otros mapas:</li>
       <li><a href="{% url 'mapa_piso_1' %}">Piso 1</a></li>
       <li><a href="{% url 'mapa_piso_2' %}">Piso 2</a></li>
       <li><a href="{% url 'mapa_piso_4' %}">Piso 4</a></li>
@@ -194,7 +194,6 @@
     regiones.forEach(r => {
       L.rectangle(r.coords, { 
         color: "white",
-        weight: 2,
         opacity: 0,
         fillOpacity: 0
       })

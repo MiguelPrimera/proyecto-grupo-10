@@ -49,6 +49,7 @@ def register(request):
         login(request, user)
         messages.success(request, "Usuario creado exitosamente.")
         return redirect('home')
+    
     return render(request, 'myapp/register.html')
 
 def login_view(request):
@@ -108,7 +109,6 @@ def grupos_publicados(request):
 def unirse_grupo(request, publicacion_id):
     publicacion = get_object_or_404(Publicaciones, pk=publicacion_id)
 
-    # Solo si hay cupos disponibles
     if publicacion.cupos_disponibles > 0:
         UnionGrupo.objects.get_or_create(usuario=request.user, publicacion=publicacion)
         publicacion.cupos_disponibles -= 1
@@ -162,10 +162,8 @@ def coords(request):  #para facilitar encontrar las coordenadas en pixeles
 
 def salas_piso_1(request):
 
-    # Obtener nombre del edificio que se hizo clic en el mapa
     edificio_seleccionado = request.GET.get("edificio")
 
-    # Todas las salas libres del piso 1
     info = Disponibilidad.objects.filter(
         sala__piso__numero=1,
         estado='Libre'
@@ -189,7 +187,6 @@ def salas_piso_1(request):
 
         data[edificio][dia][sala].append(d.bloque.nombre)
 
-    # SI se escogió un edificio, filtramos
     if edificio_seleccionado in data:
         data = {edificio_seleccionado: data[edificio_seleccionado]}
 
