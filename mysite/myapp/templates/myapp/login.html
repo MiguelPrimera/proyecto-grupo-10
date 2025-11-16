@@ -170,10 +170,21 @@
                 <input type="text" name="username" class="input" placeholder="" required>
                 <label for="" class="label">Nombre de usuario</label>
             </div>
+
             <div class="contenedor">
-                <input type="password" name="password" class="input" placeholder="" required>
+
+                <input type="password" id="password" name="password" class="input" placeholder="" required>
                 <label for="" class="label">Contraseña</label>
+
             </div>
+
+            <div style="margin-top: 10px; margin-bottom: 15px; display: flex; align-items: center; gap: 6px;">
+                
+                <input type="checkbox" id="verPass" style="width: 16px; height: 16px;">
+                <label for="verPass" style="font-size: 14px; cursor: pointer;">Mostrar contraseña</label>
+            
+            </div>
+
             <input type="submit" class="boton" value="Entrar">
             <p>¿No tienes cuenta? <a href="{% url 'register' %}">Regístrate aquí</a></p>
         </form>
@@ -187,6 +198,12 @@
         setTimeout(() => msg.remove(), 500);
         });
     }, 5000);
+
+    document.getElementById("verPass").addEventListener("change", function () {
+        const pass = document.getElementById("password");
+        pass.type = this.checked ? "text" : "password";
+    });
+
     </script>
 </body>
 </html>
