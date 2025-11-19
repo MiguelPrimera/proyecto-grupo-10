@@ -97,11 +97,20 @@ def grupos_publicados(request):
     usuario = request.user
     grupos_unidos = UnionGrupo.objects.filter(usuario=usuario).values_list('publicacion_id', flat=True)
     unido = UnionGrupo.objects.filter(usuario=usuario)
+    creados_id= Publicaciones.objects.filter(creador=usuario).values_list("id", flat=True)
+    mis_grupos = {}
+
+    for id in creados_id:
+        members = UnionGrupo.objects.filter(publicacion_id=id)
+        mis_grupos[Publicaciones.objects.filter(id=id).values_list('titulo',flat=True)[0]] = members
+
 
     return render(request, 'myapp/grupos_publicados.html', {
         'publicaciones': publicaciones,
         'grupos_unidos': grupos_unidos,
-        'unido': unido
+        'unido': unido,
+        'creados_id': creados_id,
+        'mis_grupos': mis_grupos,
     })
 
 
@@ -135,14 +144,21 @@ def salir_grupo(request, publicacion_id):
 
 @login_required(login_url='mensaje')
 def borrar_publicacion(request, publicacion_id):
+
     publicacion = get_object_or_404(Publicaciones, pk=publicacion_id)
+    publicacion.delete()
+    messages.success(request, 'Publicación eliminada correctamente.')
 
-    if publicacion.creador != request.user:
-        messages.error(request, 'No tienes permiso para borrar esta publicación.')
-    else:
-        publicacion.delete()
-        messages.success(request, 'Publicación eliminada correctamente.')
+    return redirect('grupos_publicados')
 
+def expulsar_miembro(request, union_id):
+    union = get_object_or_404(UnionGrupo, pk=union_id)
+    username = union.usuario.username
+    union.publicacion.cupos_disponibles += 1
+    union.publicacion.save()
+    union.delete()
+
+    messages.success(request, f'Miembro "{username}" ha sido expulsado')
     return redirect('grupos_publicados')
 
 def mapa_piso_1(request):

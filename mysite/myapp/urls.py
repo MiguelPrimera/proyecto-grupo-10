@@ -11,6 +11,7 @@ urlpatterns = [
     path('unirse_grupo/<int:publicacion_id>/', views.unirse_grupo, name='unirse_grupo'),
     path('salir_grupo/<int:publicacion_id>/', views.salir_grupo, name='salir_grupo'),
     path('borrar_publicacion/<int:publicacion_id>/', views.borrar_publicacion, name='borrar_publicacion'),
+    path('expulsar_miembro/<int:union_id>/', views.expulsar_miembro, name='expulsar_miembro'),
     path('mapa_piso_1/', views.mapa_piso_1, name='mapa_piso_1'),
     path('mapa_piso_2/', views.mapa_piso_2, name='mapa_piso_2'),
     path('mapa_piso_3/', views.mapa_piso_3, name='mapa_piso_3'),

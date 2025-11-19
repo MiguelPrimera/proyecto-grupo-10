@@ -211,7 +211,7 @@
 <body>
     <nav class="menu">
         <ul>
-            <li>Bienvenido{% if user.is_authenticated %}, {{ user.username }} {% else %} a USMGroup {% endif %}</li>
+            <li>Bienvenid@{% if user.is_authenticated %}, {{ user.username }} {% else %} a USMGroup {% endif %}</li>
             
             {% if user.is_authenticated %}
             <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>

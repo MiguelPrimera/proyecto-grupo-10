@@ -26,7 +26,7 @@ class Sala(models.Model):
 
 
 class Bloque(models.Model):
-    nombre = models.CharField(max_length=5, unique=True)
+    nombre = models.CharField(max_length=25, unique=True)
 
     def __str__(self):
         return self.nombre

@@ -3,11 +3,23 @@
 
 {% block content %}
 
-<div style="display: flex; gap: 30px; width: 100%; padding: 20px;">
+<div style="
+    display: flex;
+    gap: 30px;
+    width: 100%;
+    padding: 20px;">
 
-    <div class="scroll" style="flex: 3; overflow-y: auto; height: 90vh;">
+    <div class="scroll" style="
+        flex: 3;
+        overflow-y: auto;
+        height: 90vh;">
 
-        <h1 style="margin-bottom: 20px; color: white; margin-top: 30px; margin-bottom: 30px">Grupos de Estudio</h1>
+        <h1 style="margin-bottom: 20px;
+            color: white;
+            margin-top: 30px;
+            margin-bottom: 30px">
+            Grupos de Estudio
+        </h1>
 
         {% if messages %}
         <div id="message-container">
@@ -21,26 +33,44 @@
 
         {% for pub in publicaciones %}
         <div style="
-            background: white;
+            background: #1E3D59;
+            color: white;
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 20px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         ">
-            <h2 style="margin-bottom: 10px; overflow-wrap: break-word; word-break: break-word;">
+            <h2 style="
+                margin-bottom: 10px;
+                overflow-wrap: break-word;
+                word-break: break-word;">
                 {{ pub.titulo }}
             </h2>
 
-            <p style="font-size: 15px; color: #444; margin-bottom: 10px; overflow-wrap: break-word; word-break: break-word;">
+            <p style="
+                font-size: 15px;
+                margin: 30px 0px;
+                overflow-wrap: break-word;
+                word-break: break-word;">
                 {{ pub.contenido }}
             </p>
 
-            <p style="margin-bottom: 10px"><strong>Sala:</strong> {{ pub.sala.nombre }} — Piso {{ pub.sala.piso.numero }}</p>
-            <p style="margin-bottom: 10px"><strong>Creado por:</strong> {{ pub.creador.username }}</p>
-            <p style="margin-bottom: 10px"><strong>Fecha de publicación:</strong> {{ pub.fecha_creacion }}</p>
+            <p style="margin-bottom: 10px">
+                <strong>Sala:</strong> {{ pub.sala.nombre }} — Piso {{ pub.sala.piso.numero }}
+            </p>
+
+            <p style="margin-bottom: 10px">
+                <strong>Creado por:</strong> {{ pub.creador }}
+            </p>
+
+            <p style="margin-bottom: 10px">
+                <strong>Fecha de publicación:</strong> {{ pub.fecha_creacion }}
+            </p>
 
             {% if pub.cupos_disponibles == 0 %}
-                <p style="color: red;"><strong>No hay cupos disponibles.</strong></p>
+                <p style="color: red;">
+                    <strong>No hay cupos disponibles.</strong>
+                </p>
             {% else %}
                 <p>
                     <strong>Cupos disponibles:</strong>
@@ -48,7 +78,10 @@
                 </p>
             {% endif %}
 
-            <div style="margin-top: 15px; display: flex; gap: 10px;">
+            <div style="
+                margin-top: 15px;
+                display: flex;
+                gap: 10px;">
 
                 {% if user == pub.creador %}
                     <a href="{% url 'borrar_publicacion' pub.id %}"
@@ -88,56 +121,139 @@
         {% endfor %}
     </div>
 
-    <div class="scroll" style="
+    <div style="
         flex: 1;
         padding: 0 5px;
-        margin-top: 50px;
-        position: sticky;
-        top: 20px;
-        overflow-y: auto;
-        max-height: 80vh;
-    ">
+        margin-top: 25px;"
+        >
 
-        {% if unido %}
+        {% if creados_id or unido %}
+
+            {% if unido %}
 
             <h2 style="color: white; margin-bottom: 20px;">
-                Eres miembro de:
+            Eres miembro de:
+            </h2>
+            
+            <div class="scroll" style="
+                max-height: 30vh;
+                overflow-y: auto;
+                padding-right: 5px;
+                margin-bottom: 25px;
+            ">
+
+                {% for grupo in unido %}
+
+                    <div style="
+                        background: #1E3D59;
+                        color: white;
+                        border-radius: 12px;
+                        padding: 15px 20px;
+                        margin-bottom: 20px;
+                        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+                    ">
+                        <h3 style="
+                            font-size: 17px;
+                            margin-bottom: 8px;
+                            overflow-wrap: break-word;">
+
+                            {{ grupo.publicacion.titulo }}
+
+                        </h3>
+
+                        <p style="
+                            font-size: 14px;
+                            margin: 0;">
+
+                            <strong>Creado por:</strong> {{ grupo.publicacion.creador.username }}
+
+                        </p>
+
+                    </div>
+
+                {% endfor %}
+            </div>
+
+            {% endif %}
+
+            {% if creados_id %}
+
+            <h2 style="
+                color: white;
+                margin-bottom: 20px;">
+                Tus grupos creados:
             </h2>
 
-            {% for grupo in unido %}
+            <div class="scroll" style="
+                max-height: 30vh;
+                overflow-y: auto;
+                padding-right: 5px;
+            ">
 
-                <div style="
-                    background: white;
-                    border-radius: 12px;
-                    padding: 15px 20px;
-                    margin-bottom: 20px;
-                    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-                ">
-                    <h3 style="font-size: 17px; margin-bottom: 8px; overflow-wrap: break-word;">
-                        {{ grupo.publicacion.titulo }}
-                    </h3>
+                {% for grupo, miembros in mis_grupos.items %}
 
-                    <p style="font-size: 14px; color: #070707; margin: 0;">
-                        <strong>Creado por:</strong> {{ grupo.publicacion.creador.username }}
-                    </p>
-                </div>
+                    <div style="
+                        background: #1E3D59;
+                        color: white;
+                        border-radius: 12px;
+                        padding: 15px 20px;
+                        margin-bottom: 20px;
+                        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+                    ">
+                        <h3 style="
+                            font-size: 17px;
+                            margin-bottom: 8px;
+                            overflow-wrap: break-word;">
+                            {{ grupo }}
+                        </h3>
 
-            {% endfor %}
+                        {% if miembros %}
+                            <p style="margin: 15px 0;">Unidos:</p>
+
+                            {% for m in miembros %}
+                                <div style="display: flex; align-items: center; margin: 5px 0px;">
+                                    <p>{{ m.usuario }}</p>
+
+                                    <a href="{% url 'expulsar_miembro' m.id %}"
+                                    style="background: #e74c3c;
+                                        font-size: 15px; 
+                                        color: white; 
+                                        padding: 2px 6px;
+                                        border-radius: 8px; 
+                                        text-decoration: none; 
+                                        margin-left: auto;">
+                                        Expulsar
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p>Sin miembros en tu grupo.</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+            </div>
+
+            {% endif %}
 
         {% else %}
-            <p class='mensaje' style="font-size: 30px;">Aquí aparecerán los grupos a los que te unas.</p>
+
+        <p class='mensaje' style="font-size: 30px;">Aquí se verán tus grupos unidos y creados.</p>
+
         {% endif %}
+
     </div>
 
-    <script>
-        setTimeout(() => {
-            const messages = document.querySelectorAll('#message-container .alert');
-            messages.forEach(msg => {
-                msg.style.opacity = '0';
-                setTimeout(() => msg.remove(), 500);
-            });
-        }, 5000);
-    </script>
 </div>
+
+<script>
+    setTimeout(() => {
+        const messages = document.querySelectorAll('#message-container .alert');
+        messages.forEach(msg => {
+            msg.style.opacity = '0';
+            setTimeout(() => msg.remove(), 500);
+        });
+    }, 5000);
+</script>
 
 {% endblock %}
