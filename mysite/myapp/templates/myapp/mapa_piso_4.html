@@ -122,7 +122,7 @@
     .mensaje {
       color: white;
       margin-top: 220px;
-      font-size: 40px;
+      font-size: 30px;
       text-align: center;
       opacity: 0;
       transform: translateY(50px);
@@ -166,7 +166,7 @@
 
   {% block content %}
   <p class='mensaje'>
-    Haga click sobre un edificio <br>para ver la disponibilidad de sus salas.</br>
+    Haga click sobre un edificio <strong>CON SALAS</strong><br>para ver la disponibilidad de sus salas.</br>
   </p>
   {% endblock %}
 
@@ -191,8 +191,7 @@
     const destino = "{% url 'salas_piso_4' %}";
 
     regiones.forEach(r => {
-      L.rectangle(r.coords, { 
-        color: "white",
+      L.rectangle(r.coords, {
         opacity: 0,
         fillOpacity: 0
       })

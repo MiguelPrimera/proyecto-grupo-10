@@ -91,6 +91,8 @@ def crear_publicacion(request):
     return render(request, 'myapp/crear_publicacion.html', {'form': form})
 
 @login_required(login_url='mensaje')
+
+
 def grupos_publicados(request):
 
     publicaciones = Publicaciones.objects.all().order_by('-fecha_creacion')
@@ -153,12 +155,13 @@ def borrar_publicacion(request, publicacion_id):
 
 def expulsar_miembro(request, union_id):
     union = get_object_or_404(UnionGrupo, pk=union_id)
+    grupo = union.publicacion.titulo
     username = union.usuario.username
     union.publicacion.cupos_disponibles += 1
     union.publicacion.save()
     union.delete()
 
-    messages.success(request, f'Miembro "{username}" ha sido expulsado')
+    messages.success(request, f'Miembro "{username}" ha sido expulsado del grupo "{grupo}"')
     return redirect('grupos_publicados')
 
 def mapa_piso_1(request):
@@ -183,7 +186,7 @@ def salas_piso_1(request):
     info = Disponibilidad.objects.filter(
         sala__piso__numero=1,
         estado='Libre'
-    ).select_related('sala', 'bloque')
+    ).select_related('sala', 'bloque', 'dia')
 
     data = {}
     for d in info:
@@ -218,7 +221,7 @@ def salas_piso_2(request):
     info = Disponibilidad.objects.filter(
         sala__piso__numero=2,
         estado='Libre'
-    ).select_related('sala', 'bloque')
+    ).select_related('sala', 'bloque', 'dia')
 
     data = {}
     for d in info:
@@ -253,7 +256,7 @@ def salas_piso_3(request):
     info = Disponibilidad.objects.filter(
         sala__piso__numero=3,
         estado='Libre'
-    ).select_related('sala', 'bloque')
+    ).select_related('sala', 'bloque', 'dia')
 
     data = {}
     for d in info:
@@ -288,7 +291,7 @@ def salas_piso_4(request):
     info = Disponibilidad.objects.filter(
         sala__piso__numero=4,
         estado='Libre'
-    ).select_related('sala', 'bloque')
+    ).select_related('sala', 'bloque', 'dia')
 
     data = {}
     for d in info:

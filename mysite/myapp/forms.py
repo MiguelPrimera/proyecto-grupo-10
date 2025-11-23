@@ -3,7 +3,6 @@ from .models import Publicaciones
 
 class PublicacionForm(forms.ModelForm):
 
-
     cupos_maximos = forms.IntegerField(
         min_value=1,
         max_value=20,
@@ -25,5 +24,6 @@ class PublicacionForm(forms.ModelForm):
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
             'contenido': forms.Textarea(attrs={'class': 'form-control'}),
             'sala': forms.Select(attrs={'class': 'form-select'}),
-            'cupos_maximos': forms.NumberInput(attrs={'class': 'form-control', 'min': 1, 'max': 20}),
+            'cupos_maximos': forms.NumberInput(attrs={
+                'class': 'form-control', 'min': 1, 'max': 20}),
         }
