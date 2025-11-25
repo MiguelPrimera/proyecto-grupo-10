@@ -187,13 +187,14 @@
             color: #155724;
         }
         
-        .login-message {
-            margin-top: 220px;
-            font-size: 50px;
+        .quienes_somos {
+            margin-top: 180px;
+            font-size: 20px;
             text-align: center;
             opacity: 0;
             transform: translateY(50px);
             animation: fadeUp 1s ease-out forwards;
+            color: white
         }
 
         @keyframes fadeUp {
@@ -211,8 +212,8 @@
 <body>
     <nav class="menu">
         <ul>
-            <li>Bienvenid@{% if user.is_authenticated %}, {{ user.username }} {% else %} a USMGroup {% endif %}</li>
-            <li><a href="{% url 'quienes_somos' %}">¿Quiénes somos?</a></li>
+            <li>{% if user.is_authenticated %}{{ user.username }}{% endif %}</li>
+            <li><a href="{% url 'home' %}">Volver al inicio</a></li>
             {% if user.is_authenticated %}
             <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
             {% else %}
@@ -221,54 +222,17 @@
             {% endif %}
         </ul>
     </nav>
-
-    {% if messages %}
-    <div id="message-container">
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">
-            {{ message }}
-        </div>
-        {% endfor %}
+    <div class="quienes_somos">
+        <h1 style="margin-bottom: 20px;">
+            ¿Quiénes somos?
+        </h1>
+        <p>Somos estudiantes de primer año de Ingeniería Civil Informática de la Universidad Técnica Federico Santa María
+            <br>y la idea de juntarnos para desarrollar "USMGroup" surgió de percatarnos de la necesidad de estudiantes neurodivergentes
+            <br>de encontrar lugares cómodos para estudiar. Nosotros como equipo deseamos fortalecer la unidad y colaboración de los
+            <br>miembros de la comunidad Sansana. No solo buscamos crecer como aplicación, también esperamos crecer como equipo y esperamos
+            <br>es lo que nos seguirá motivando a continuar con "USMGroup". Además trabajaremos bajo el objetivo de ser una red de apoyo
+            <br>académico realmente importante y funcional para toda la comunidad Sansana. 
+        </p>
     </div>
-    {% endif %}
-
-    <div class="options-container">
-        {% if user.is_authenticated %}
-        <a href="{% url 'crear_publicacion' %}" class="option-card">Crear un nuevo grupo</a>
-        <a href="{% url 'grupos_publicados' %}" class="option-card">Ver grupos publicados</a>
-        {% else %}
-        <a href="{% url 'mensaje' %}" class="option-card">Crear un nuevo grupo</a>
-        <a href="{% url 'mensaje' %}" class="option-card">Ver grupos publicados</a>
-        {% endif %}
-
-
-        <div id="availability-container">
-            <div id="availability-button" class="option-card">Ver disponibilidad de salas</div>
-            <div id="availability-options" class="availability-options">
-                <a href="{% url 'mapa_piso_1' %}">Piso 1</a>
-                <a href="{% url 'mapa_piso_2' %}">Piso 2</a>
-                <a href="{% url 'mapa_piso_3' %}">Piso 3</a>
-                <a href="{% url 'mapa_piso_4' %}">Piso 4</a>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        setTimeout(() => {
-            const messages = document.querySelectorAll('#message-container .alert');
-            messages.forEach(msg => {
-                msg.style.opacity = '0';
-                setTimeout(() => msg.remove(), 500);
-            });
-        }, 5000);
-
-        const btn = document.getElementById('availability-button');
-        const options = document.getElementById('availability-options');
-
-        btn.addEventListener('click', () => {
-            btn.style.display = 'none';
-            options.style.display = 'flex';
-        });
-    </script>
 </body>
 </html>

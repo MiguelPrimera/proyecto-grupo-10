@@ -321,3 +321,6 @@ def salas_piso_4(request):
 
 def mensaje(request):
     return render(request, 'myapp/mensaje.html')
+
+def quienes_somos(request):
+    return render(request, 'myapp/quienes_somos.html')

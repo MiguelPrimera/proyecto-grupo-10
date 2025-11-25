@@ -21,5 +21,6 @@ urlpatterns = [
     path('salas_piso_3/', views.salas_piso_3, name='salas_piso_3'),
     path('salas_piso_4/', views.salas_piso_4, name='salas_piso_4'),
     path('coords/',views.coords,name='coords'), #para facilitar encontrar las coordenadas en pixeles
-    path('mensaje/', views.mensaje, name='mensaje')
+    path('mensaje/', views.mensaje, name='mensaje'),
+    path('quienes_somos/', views.quienes_somos, name='quienes_somos')
 ]
